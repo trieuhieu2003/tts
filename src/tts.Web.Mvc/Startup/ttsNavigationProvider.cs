@@ -42,7 +42,7 @@ namespace tts.Web.Startup
                         "Categories",
                         L("Categories"),
                         url: "Categories",
-                        icon: "fas fa-box"
+                        icon: "fas fa-tag"
                     )
                 ).AddItem(
                     new MenuItemDefinition(

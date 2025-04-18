@@ -17,6 +17,8 @@
     var _$productsTable = _$table.DataTable({
         paging: true,
         serverSide: true,
+        //pageLength: 15,
+        //lengthMenu: [5, 15, 20, 25],
         ordering: true,
         processing: true,
         order: [[6, 'desc']],
@@ -31,6 +33,7 @@
                 // Lấy giá trị từ input trong dropdown
                 var minPrice = parseFloat($('.dropdown-menu input[name="MinPrice"]').val());
                 var maxPrice = parseFloat($('.dropdown-menu input[name="MaxPrice"]').val());
+                var categoryId = $('.dropdown-menu select[name="CategoryId"]').val();
                 
                 // Thêm giá trị vào filter nếu có
                 if (!isNaN(minPrice)) {
@@ -38,6 +41,9 @@
                 }
                 if (!isNaN(maxPrice)) {
                     filter.MaxPrice = maxPrice;
+                }
+                if (categoryId) {
+                    filter.CategoryId = categoryId;
                 }
 
                 if (order.length > 0) {
@@ -50,7 +56,6 @@
 
                 console.log('Dữ liệu gửi đi:', filter);  // Kiểm tra giá trị filter
                 return filter;
-
             }
         },
         

@@ -133,6 +133,12 @@ namespace tts.Products
                 products = products.Where(p => p.Price <= input.MaxPrice.Value);
             }
 
+            // Lọc theo danh mục
+            if (input.CategoryId.HasValue && input.CategoryId.Value > 0)
+            {
+                products = products.Where(p => p.CategoryId == input.CategoryId.Value);
+            }
+
             // Tính tổng số lượng sản phẩm sau khi lọc
             var count = await products.CountAsync();
 

@@ -70,11 +70,7 @@
                 defaultContent: '',
                 render: (data, type, row, meta) => {
                     return [
-                            `<div class="dropdown">
-                            <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="actionDropdown_${row.id}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                ${l('Actions')}
-                            </button>
-                            <div class="dropdown-menu p-0" aria-labelledby="actionDropdown_${row.id}">
+                        `
                                 <button type="button" class="dropdown-item text-secondary edit-category" data-category-id="${row.id}" data-toggle="modal" data-target="#editModal">
                                     <i class="fas fa-edit mr-2"></i> ${l('Edit')}
                                 </button>
@@ -82,8 +78,22 @@
                                 <button type="button" class="dropdown-item text-danger delete-category" data-category-id="${row.id}" data-category-name="${row.nameCategory}" data-toggle="modal" data-target="#deleteModal">
                                     <i class="fas fa-trash mr-2"></i> ${l('Delete')}
                                 </button>
-                            </div>
-                        </div>`
+                            `
+
+                        //    `<div class="dropdown">
+                        //    <button class="btn btn-sm btn-primary dropdown-toggle" type="button" id="actionDropdown_${row.id}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        //        ${l('Actions')}
+                        //    </button>
+                        //    <div class="dropdown-menu p-0" aria-labelledby="actionDropdown_${row.id}">
+                        //        <button type="button" class="dropdown-item text-secondary edit-category" data-category-id="${row.id}" data-toggle="modal" data-target="#editModal">
+                        //            <i class="fas fa-edit mr-2"></i> ${l('Edit')}
+                        //        </button>
+                        //        <div class="dropdown-divider m-0"></div>
+                        //        <button type="button" class="dropdown-item text-danger delete-category" data-category-id="${row.id}" data-category-name="${row.nameCategory}" data-toggle="modal" data-target="#deleteModal">
+                        //            <i class="fas fa-trash mr-2"></i> ${l('Delete')}
+                        //        </button>
+                        //    </div>
+                        //</div>`
                     ].join('');
                 }
             }
