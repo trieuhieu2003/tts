@@ -1,0 +1,908 @@
+﻿@using tts.Web.Startup
+@{
+    ViewBag.Title = L("HomePage");
+    ViewBag.CurrentPageName = PageNames.Home;
+}
+
+@section scripts
+{
+<environment names="Development">
+    <script src="~/view-resources/Views/Home/Index.js" asp-append-version="true"></script>
+</environment>
+
+<environment names="Staging,Production">
+    <script src="~/view-resources/Views/_Bundles/home-index.min.js" asp-append-version="true"></script>
+</environment>
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thế giới di động</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="../styles/interface.css">
+    <link rel="stylesheet" href="~/css/style.css">
+
+    <!-- <link rel="stylesheet" href="../styles/login.css"> -->
+</head>
+
+<body>
+    <div class="banner-header">
+        <!-- <img src="../image/header.png"> -->
+    </div>
+    <header class="header-container">
+        <nav>
+            <div class="container">
+                <ul>
+                    <li><a href=""><img style="height: 60px; width: 270px;" src="~/img/logo.png" alt=""></a></li>
+                    <li><i class="fa-solid fa-magnifying-glass"></i><input type="text" placeholder="Bạn tìm gì..."></li>
+                    <li id="loginForm">
+                        <a href="#"></a><button id="loginButton">
+                            <i class="fa-solid fa-user"></i>Đăng
+                            nhập
+                        </button>
+                    </li>
+                    <div class="login-form">
+                        <div><img src="../image/TGDD-540x270.png"></div>
+                        <div class="login-container">
+                            <p>Tra cứu thông tin đơn hàng</p>
+                            <form action="#" method="post" id="phoneForm">
+                                <div class="form-group">
+                                    <i class="fa-solid fa-mobile-screen-button" style="color: #2113ea;"></i><input id="phone" class="phone" type="text" placeholder="Nhập số điện thoại mua hàng">
+                                    <span class="error-message" id="phoneError"></span>
+                                </div>
+                                <button type="submit" id="closeForm">Tiếp tục</button>
+                            </form>
+                            <!-- <p class="register-link">Chưa có tài khoản? <a href="#">Đăng ký ngay</a></p> -->
+                        </div>
+                    </div>
+                    <li><a href=""></a><button><i class="fa-solid fa-cart-shopping"></i>Giỏ hàng</button></li>
+                    <li id="address-form">
+                        <a href="#">
+                            <span class="address">
+                                <i class="fa-solid fa-location-dot"></i>An
+                                Giang
+                                <i style="margin-left: 10px;" class="fa-solid fa-angle-down"></i>
+                            </span>
+                        </a>
+                    </li>
+                    <div class="address-form">
+                        <div class="address-form-content">
+                            <h2>Chọn địa chỉ giao hàng<span id="address-close">Đóng</span></h2>
+                            <form action="#" method="POST">
+                                <div class="modal-content">
+                                    <p class="selected-location">
+                                        Chọn đầy đủ địa chỉ nhận hàng để biết chính xác thời
+                                        gian giao <strong></strong>
+                                    </p>
+
+                                    <!-- Ô tìm kiếm -->
+                                    <div class="search-box">
+                                        <i class="fa-solid fa-magnifying-glass"></i>
+                                        <input type="text" placeholder="Tìm nhanh tỉnh thành, quận huyện, phường xã">
+                                    </div>
+
+                                    <!-- Tabs lựa chọn -->
+                                    <div class="tabs-chose">
+                                        <select name="" id="">
+                                            <option value="#">--Chọn tỉnh thành (*)</option>
+                                            <option value="#">An Giang</option>
+                                        </select>
+                                        <select name="" id="">
+                                            <option value="#">--Chọn quận huyện (*)</option>
+                                            <option value="#">Thoại sơn</option>
+                                        </select>
+                                        <select name="" id="">
+                                            <option value="#">--Chọn phường xã (*)</option>
+                                            <option value="#">Vĩnh trạch</option>
+                                        </select>
+                                    </div>
+                                    <!-- Nút Submit -->
+                                    <button type="submit" class="submit-btn">Xác nhận</button>
+
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                    @* <li class="online">
+                        <a href="">
+                            <span class="btn-content">
+                                <span class="btn-top"></span>
+                            </span>Online
+                        </a>
+                    </li> *@
+                </ul>
+            </div>
+        </nav>
+        <section class="menu-bar">
+            <div class="container">
+                <div class="menu-bar-content">
+                    <ul>
+                        <li><a href=""><i class="fa-solid fa-mobile-screen-button"></i>Điện thoại</a></li>
+                        <li><a href=""><i class="fa-solid fa-laptop"></i></i>Laptop</a></li>
+                        <li>
+                            <a href="">
+                                <i class="fa-solid fa-headphones-simple"></i>Phụ kiện
+                                <i class="fa-solid fa-angle-down"></i>
+                            </a>
+                            <div class="submenu">
+                                <div class="title">
+                                    <h4>Phụ kiện di động</h4>
+                                </div>
+                                <div class="item">
+                                    <img src="~/img/phukien1.jpg">
+                                    <p>Sạc dự phòng</p>
+                                </div>
+                                <div class="item">
+                                    <img src="~/img/phukien2.jpg">
+                                    <p>Sạc, cáp</p>
+                                </div>
+                                <div class="item">
+                                    <img src="~/img/phukien3.jpg">
+                                    <p>Ốp lưng điện thoại</p>
+                                </div>
+                                <div class="item">
+                                    <img src="~/img/phukien4.jpg">
+                                    <p>Ốp lưng iPad</p>
+                                </div>
+                                <div class="item">
+                                    <img src="~/img/phukien5.jpg">
+                                    <p>Miếng dán</p>
+                                </div>
+                                <div class="item">
+                                    <img src="~/img/phukien6.jpg">
+                                    <p>Miếng dán Camera</p>
+                                </div>
+                                <div class="item">
+                                    <img src="~/img/phukien7.jpg">
+                                    <p>Túi đựng AirPods</p>
+                                </div>
+                                <div class="item">
+                                    <img src="~/img/phukien8.jpg">
+                                    <p>AirTag, Vỏ bảo vệ</p>
+                                </div>
+                                <div class="item">
+                                    <img src="~/img/phukien9.jpg">
+                                    <p>Dây đồng hồ</p>
+                                </div>
+
+                            </div>
+                        </li>
+                        <li><a href=""><i class="fa-solid fa-stopwatch"></i>SmartWatch</a></li>
+                        <li><a href=""><i class="fa-brands fa-safari"></i>Đồng hồ</a></li>
+                        <li><a href=""><i class="fa-solid fa-tablet-screen-button"></i>Tablet</a></li>
+                        <li>
+                            <a href="">
+                                <i class="fa-solid fa-mobile-retro"></i></i>Máy cũ, Thu cũ
+                                <i class="fa-solid fa-angle-down"></i>
+                            </a>
+                            <div class="submenu-old-machine">
+                                <div class="title">
+                                    <h4>Máy cũ, Thu mua</h4>
+                                </div>
+                                <div class="item">
+                                    <img src="~/img/maycu1.png">
+                                    <p>Máy cũ giá rẻ</p>
+                                </div>
+                                <div class="item">
+                                    <img src="~/img/thucu.png">
+                                    <p>Thu cũ đổi mới</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="">
+                                <i class="fa-solid fa-display"></i>Màn hình, Máy in
+                                <i class="fa-solid fa-angle-down"></i>
+                            </a>
+                            <div class="submenu-old-machine">
+                                <div class="title">
+                                    <h4>Máy cũ, Thu mua</h4>
+                                </div>
+                                <div class="item">
+                                    <img src="~/img/manhinh.png">
+                                    <p>Máy tính để bàn</p>
+                                </div>
+                                <div class="item">
+                                    <img src="~/img/manhinh-maytinh.png">
+                                    <p>Màn hình máy tính</p>
+                                </div>
+                                <div class="item">
+                                    <img src="~/img/maychoigame.png">
+                                    <p>Máy chơi game</p>
+                                </div>
+                                <div class="item">
+                                    <img src="~/img/phanmem.png">
+                                    <p>Phần mềm</p>
+                                </div>
+                            </div>
+                        </li>
+                       @*  <li>
+                            <a href="">
+                                <i class="fa-solid fa-sim-card"></i>Sim, Thẻ cào
+                                <i class="fa-solid fa-angle-down"></i>
+                            </a>
+                            <div class="submenu-old-machine">
+                                <div class="title">
+                                    <h4></h4>
+                                </div>
+                                <div class="item">
+                                    <img src="../image/sim.png">
+                                    <p>Sim, thẻ cào</p>
+                                </div>
+                                <div class="item">
+                                    <img src="../image/esim.png">
+                                    <p>eSim du lịch</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="">
+                                <i class="fa-regular fa-address-book"></i>Dịch vụ
+                                <i class="fa-solid fa-angle-down"></i>
+                            </a>
+                            <div class="submenu-service">
+                                <div class="title">
+                                    <h4>Thanh toán hóa đơn</h4>
+                                </div>
+                                <div class="item">
+                                    <img src="../image/dongtien-tragop.png">
+                                    <p>Đóng tiền trả góp</p>
+                                </div>
+                                <div class="item">
+                                    <img src="../image/tiendien.png">
+                                    <p>Đóng tiền điện</p>
+                                </div>
+                                <div class="item">
+                                    <img src="../image/tiennuoc.png">
+                                    <p>Đóng tiền nước</p>
+                                </div>
+                                <div class="item">
+                                    <img src="../image/vetau.png">
+                                    <p>Vé tàu, máy bay</p>
+                                </div>
+                                <div class="item">
+                                    <img src="../image/tienTV.png">
+                                    <p>Mua gói truyền hình</p>
+                                </div>
+                            </div>
+                        </li> *@
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </header>
+    <section class="slider">
+        <div class="bgsilder">
+            <a href="#"><img class="slide" src="~/img/bgslider.png"></a>
+            <a href="#"><img class="slide" src="~/img/bgslider1.png"></a>
+            <a href="#"><img class="slide" src="~/img/bgslider2.png"></a>
+            <a href="#"><img class="slide" src="~/img/bgslider4.png"></a>
+
+        </div>
+    </section>
+    <!-- Sản phẩm đã xem -->
+    <!-- <section class="slider-two">
+        <div class="bgsilder-container">
+            <h2>Sản phẩm đã xem</h2>
+            <div class="viewed-product-container">
+                <div class="slider-content">
+                    <div class="close-viewed-product">
+
+                    </div>
+                    <div class="img-viewed-product">
+                        <a href=""><img src="../image/viewed-product.jpg"></a>
+                    </div>
+                    <div class="viewed-content">
+                        <p class="viewed-product-title">Acer Aspire 7 A715 76 53PJ i5 12450H (NH.QGESV.007)</p>
+                        <p class="viewed-product-price">13.790.000₫</p>
+                    </div>
+                </div>
+                <div class="slider-content">
+                    <div class="close-viewed-product">
+
+                    </div>
+                    <div class="img-viewed-product">
+                        <a href=""><img src="../image/viewed-product1.jpg"></a>
+                    </div>
+                    <div class="viewed-content">
+                        <p class="viewed-product-title">iPhone 16 128GB</p>
+                        <p class="viewed-product-price">19.290.000₫</p>
+                    </div>
+                </div>
+                <div class="slider-content">
+                    <div class="close-viewed-product">
+
+                    </div>
+                    <div class="img-viewed-product">
+                        <a href=""><img src="../image/viewed-product2.jpg"></a>
+                    </div>
+                    <div class="viewed-content">
+                        <p class="viewed-product-title">Huawei Watch D2 48mm</p>
+                        <p class="viewed-product-price">8.290.000₫</p>
+                    </div>
+                </div>
+                <div class="slider-content">
+                    <div class="close-viewed-product">
+
+                    </div>
+                    <div class="img-viewed-product">
+                        <a href=""><img src="../image/viewed-product3.jpg"></a>
+                    </div>
+                    <div class="viewed-content">
+                        <p class="viewed-product-title">Tai nghe AVA+ FreeGo Y50</p>
+                        <p class="viewed-product-price">350.000₫</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section> -->
+    <!-- Phần khuyến mãi  -->
+    <!-- <div class="block-protomo">
+        <h3>Khuyến mãi Online</h3>
+    </div> -->
+    <div class="hotpromoto-homeproduct-block">
+        <ul class="submenu-promoto-product">
+            <!-- <li><a href=""><img class="submenu-item" src="../image/flaseSale.png"></a></li>
+            <li><a href=""><img class="submenu-item" src="../image/OnlineOnly.png"></a></li> -->
+            <li><a href=""></a>Điện Thoại</li>
+            <li><a href=""></a>Apple</li>
+            <li><a href=""></a>Laptop</li>
+            <li><a href=""></a>Phụ Kiện</li>
+            <li><a href=""></a>Đồng Hồ</li>
+        </ul>
+        <!-- <div class="promoto-product-relative">
+            <div class="time-flashsale-container">
+                <div class="time-flashsale" id="countdown"
+                    style="background-color: #fea200; padding: 20px; text-align: center;">
+                    <h2>Chỉ còn:</h2>
+                    <div class="time-textChar" id="timer" style="font-size: 18px;">05:00</div>
+                </div>
+            </div>
+        </div> -->
+        <div class="display-products-Fsale">
+            <!-- Products will be loaded here via AJAX -->
+        </div>
+    </div>
+    </div>
+    <!-- 2 hình ảnh trượt ngang nằm giữa banner -->
+    <section class="home-banner-middle">
+        <div class="double-picture-container">
+            <div class="item-img-run">
+                <!-- <a href=""><img id="image1" src="~/img/banner-middle.png" style="height: 180px; width: 615px;"></a> -->
+                <!-- <a href=""><img id="image2" src="~/img/banner-middle1.png" style="height: 180px; width: 615px;"></a> -->
+                <a href=""><img id="image1" src="~/img/banner-middle1.png" style="height: 180px; width: 615px;"></a>
+                <a href=""><img id="image2" src="~/img/banner-middle3.png" style="height: 180px; width: 615px;"></a>
+                <a href=""><img id="image1" src="~/img/banner-middle4.png" style="height: 180px; width: 615px;"></a>
+                <a href=""><img id="image2" src="~/img/banner-middle5.png" style="height: 180px; width: 615px;"></a>
+            </div>
+        </div>
+    </section>
+    <!-- Gợi ý cho bạn -->
+    <div class="hotpromoto-homeproduct-block">
+        <div class="block-protomo">
+            <h3><br>&nbsp;&nbsp;&nbsp;&nbsp;Gợi ý cho bạn</h3>
+        </div>
+        <div class="display-products-Fsale">
+            <div class="item-product">
+                <div class="picture-run"><img class="item-img" src="../image/item7.jpg"></div>
+                <h3>HP Pavilion 15 eg3094TU i5 1335U (8C5L5PA)</h3>
+                <div>
+                    <strong class="price">
+                        15.490.000₫
+                        <span class="price-and-discount">
+                            <label class="price-old">19.990.000₫</label><small>-22%</small>
+                        </span>
+                    </strong>
+                </div>
+                <div class="fireFlashSale">
+                    <img src="..//image/flash-sale.png">
+                    <span class="countdown-flashsale">
+                        <b style=" font-size: 13px; font-weight: 400;">Còn 10/10 suất</b>
+                    </span>
+                </div>
+                <div class="item-bnt"><button>Mua ngay</button></div>
+            </div>
+            <div class="item-product">
+                <div class="picture-run"><img class="item-img" src="../image/item1.jpg"></div>
+                <h3>Xiaomi 14T 5G 12GB/256GB</h3>
+                <strong class="price">
+                    10.990.000₫
+                    <span class="price-and-discount">
+                        <label class="price-old">
+                            12.990.000₫
+                        </label><small>-15%</small>
+                    </span>
+                </strong>
+                <div class="fireFlashSale">
+                    <img src="..//image/flash-sale.png">
+                    <span class="countdown-flashsale">
+                        <b style=" font-size: 13px; font-weight: 400;">Còn 6/10 suất</b>
+                    </span>
+                </div>
+                <div class="item-bnt"><button>Mua ngay</button></div>
+            </div>
+            <div class="item-product">
+                <div class="picture-run"><img class="item-img" src="../image/item2.jpg"></div>
+                <h3>HONOR X9c Smart 5G 12GB/256GB</h3>
+                <strong class="price">
+                    7.190.000₫
+                    <span class="price-and-discount">
+                        <label class="price-old">
+                            7.990.000₫
+                        </label><small>-10%</small>
+                    </span>
+                </strong>
+                <div class="fireFlashSale">
+                    <img src="..//image/flash-sale.png">
+                    <span class="countdown-flashsale">
+                        <b style=" font-size: 13px; font-weight: 400;">Còn 8/10 suất</b>
+                    </span>
+                </div>
+                <div class="item-bnt"><button>Mua ngay</button></div>
+            </div>
+            <div class="item-product">
+                <div class="picture-run"><img class="item-img" src="../image/item3.jpg"></div>
+                <h3>CITIZEN 27 mm Nữ EQ0603-59F</h3>
+                <strong class="price">
+                    2.431.000₫
+                    <span class="price-and-discount">
+                        <label class="price-old">
+                            4.085.000₫
+                        </label><small>-40%</small>
+                    </span>
+                </strong>
+                <div class="fireFlashSale">
+                    <img src="..//image/flash-sale.png">
+                    <span class="countdown-flashsale">
+                        <b style=" font-size: 13px; font-weight: 400;">Còn 5/5 suất</b>
+                    </span>
+                </div>
+                <div class="item-bnt"><button>Mua ngay</button></div>
+            </div>
+            <div class="item-product">
+                <div class="picture-run"><img class="item-img" src="../image/item4.jpg"></div>
+                <h3>Camera IP 360 Độ 5MP 365 Selection C2</h3>
+                <strong class="price">
+                    690.000₫
+                    <span class="price-and-discount">
+                        <label class="price-old">
+                            890.000₫
+                        </label><small>-22%</small>
+                    </span>
+                </strong>
+                <div class="fireFlashSale">
+                    <img src="..//image/flash-sale.png">
+                    <span class="countdown-flashsale">
+                        <b style=" font-size: 13px; font-weight: 400;">Còn 5/5 suất</b>
+                    </span>
+                </div>
+                <div class="item-bnt"><button>Mua ngay</button></div>
+            </div>
+            <div class="item-product">
+                <div class="picture-run"><img class="item-img" src="../image/item5.jpg"></div>
+                <h3>Máy in phun màu đa năng HP SmartTank 520 (1F3W2A)</h3>
+                <strong class="price">
+                    2.490.000₫
+                    <span class="price-and-discount">
+                        <label class="price-old">
+                            3.390.000₫
+                        </label><small>-26%</small>
+                    </span>
+                </strong>
+                <div class="fireFlashSale">
+                    <img src="..//image/flash-sale.png">
+                    <span class="countdown-flashsale">
+                        <b style=" font-size: 13px; font-weight: 400;">Còn 3/5 suất</b>
+                    </span>
+                </div>
+                <div class="item-bnt"><button>Mua ngay</button></div>
+            </div>
+        </div>
+        <div class="display-products-Fsale">
+            <div class="item-product">
+                <div class="picture-run"><img class="item-img" src="../image/item7.jpg"></div>
+                <h3>HP Pavilion 15 eg3094TU i5 1335U (8C5L5PA)</h3>
+                <div>
+                    <strong class="price">
+                        15.490.000₫
+                        <span class="price-and-discount">
+                            <label class="price-old">19.990.000₫</label><small>-22%</small>
+                        </span>
+                    </strong>
+                </div>
+                <div class="fireFlashSale">
+                    <img src="..//image/flash-sale.png">
+                    <span class="countdown-flashsale">
+                        <b style=" font-size: 13px; font-weight: 400;">Còn 10/10 suất</b>
+                    </span>
+                </div>
+                <div class="item-bnt"><button>Mua ngay</button></div>
+            </div>
+            <div class="item-product">
+                <div class="picture-run"><img class="item-img" src="../image/item1.jpg"></div>
+                <h3>Xiaomi 14T 5G 12GB/256GB</h3>
+                <strong class="price">
+                    10.990.000₫
+                    <span class="price-and-discount">
+                        <label class="price-old">
+                            12.990.000₫
+                        </label><small>-15%</small>
+                    </span>
+                </strong>
+                <div class="fireFlashSale">
+                    <img src="..//image/flash-sale.png">
+                    <span class="countdown-flashsale">
+                        <b style=" font-size: 13px; font-weight: 400;">Còn 6/10 suất</b>
+                    </span>
+                </div>
+                <div class="item-bnt"><button>Mua ngay</button></div>
+            </div>
+            <div class="item-product">
+                <div class="picture-run"><img class="item-img" src="../image/item2.jpg"></div>
+                <h3>HONOR X9c Smart 5G 12GB/256GB</h3>
+                <strong class="price">
+                    7.190.000₫
+                    <span class="price-and-discount">
+                        <label class="price-old">
+                            7.990.000₫
+                        </label><small>-10%</small>
+                    </span>
+                </strong>
+                <div class="fireFlashSale">
+                    <img src="..//image/flash-sale.png">
+                    <span class="countdown-flashsale">
+                        <b style=" font-size: 13px; font-weight: 400;">Còn 8/10 suất</b>
+                    </span>
+                </div>
+                <div class="item-bnt"><button>Mua ngay</button></div>
+            </div>
+            <div class="item-product">
+                <div class="picture-run"><img class="item-img" src="../image/item3.jpg"></div>
+                <h3>CITIZEN 27 mm Nữ EQ0603-59F</h3>
+                <strong class="price">
+                    2.431.000₫
+                    <span class="price-and-discount">
+                        <label class="price-old">
+                            4.085.000₫
+                        </label><small>-40%</small>
+                    </span>
+                </strong>
+                <div class="fireFlashSale">
+                    <img src="..//image/flash-sale.png">
+                    <span class="countdown-flashsale">
+                        <b style=" font-size: 13px; font-weight: 400;">Còn 5/5 suất</b>
+                    </span>
+                </div>
+                <div class="item-bnt"><button>Mua ngay</button></div>
+            </div>
+            <div class="item-product">
+                <div class="picture-run"><img class="item-img" src="../image/item4.jpg"></div>
+                <h3>Camera IP 360 Độ 5MP 365 Selection C2</h3>
+                <strong class="price">
+                    690.000₫
+                    <span class="price-and-discount">
+                        <label class="price-old">
+                            890.000₫
+                        </label><small>-22%</small>
+                    </span>
+                </strong>
+                <div class="fireFlashSale">
+                    <img src="..//image/flash-sale.png">
+                    <span class="countdown-flashsale">
+                        <b style=" font-size: 13px; font-weight: 400;">Còn 5/5 suất</b>
+                    </span>
+                </div>
+                <div class="item-bnt"><button>Mua ngay</button></div>
+            </div>
+            <div class="item-product">
+                <div class="picture-run"><img class="item-img" src="../image/item5.jpg"></div>
+                <h3>Máy in phun màu đa năng HP SmartTank 520 (1F3W2A)</h3>
+                <strong class="price">
+                    2.490.000₫
+                    <span class="price-and-discount">
+                        <label class="price-old">
+                            3.390.000₫
+                        </label><small>-26%</small>
+                    </span>
+                </strong>
+                <div class="fireFlashSale">
+                    <img src="..//image/flash-sale.png">
+                    <span class="countdown-flashsale">
+                        <b style=" font-size: 13px; font-weight: 400;">Còn 3/5 suất</b>
+                    </span>
+                </div>
+                <div class="item-bnt"><button>Mua ngay</button></div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <!-- <div class="product-privilege">
+        <div class="index-privilege">
+            <h3>Sản Phẩm Đặc Quyền</h3>
+        </div>
+        <div class="product-privilege-item">
+            <a href=""><img src="../image/product-privilege.png"
+                    style="height: 500px; width: 380px; object-fit: contain;"></a>
+            <div class="item-product-privilege">
+                <div class="item-lable">
+                    <span class="ln-new">Mẫu mới</span>
+                    <span class="lb-tragop">Trả chậm 0%</span>
+                </div>
+                <div class="picture-run"><img class="item-img" src="../image/product-privilege1.jpg">
+                    <img class="picture-dacquyen" src="../image/label-privilege-logo.png"
+                        style="height: 45px; width: 45px;">
+                </div>
+                <h3>Samsung Galaxy A56 5G 12GB/256GB</h3>
+                <div class="item-config">
+                    <span>Full HD+</span>
+                    <span>6.7"</span>
+                </div>
+                <strong class="price">11.490.000₫
+                    <span class="price-and-discount">
+                        <label class="price-old">11.990.000₫</label>
+                        <small>-4%</small>
+                    </span>
+                </strong>
+                <p class="item-gift">Ưu đãi 2.190.000₫</p>
+                <div class="item-bnt"><button>Mua ngay</button></div>
+            </div> -->
+    <!-- <div class="item-product-privilege">
+                <div class="item-lable">
+                    <span class="ln-new">Mẫu mới</span>
+                    <span class="lb-tragop">Trả chậm 0%</span>
+                </div>
+                <div class="picture-run"><img class="item-img" src="../image/product-privilege2.jpg">
+                    <img src="../image/label-privilege-logo.png" style="height: 45px; width: 45px;">
+                </div>
+                <h3>Samsung Galaxy A56 5G 12GB/256GB</h3>
+                <div class="item-config">
+                    <span>Full HD+</span>
+                    <span>6.7"</span>
+                </div>
+                <strong class="price">11.490.000₫
+                    <span class="price-and-discount">
+                        <label class="price-old">11.990.000₫</label>
+                        <small>-4%</small>
+                    </span>
+                </strong>
+                <p class="item-gift">Ưu đãi 2.190.000₫</p>
+                <div class="item-bnt"><button>Mua ngay</button></div>
+            </div>
+            <div class="item-product-privilege">
+                <div class="item-lable">
+                    <span class="ln-new">Mẫu mới</span>
+                    <span class="lb-tragop">Trả chậm 0%</span>
+                </div>
+                <div class="picture-run"><img class="item-img" src="../image/product-privilege3.jpg">
+                    <img src="../image/label-privilege-logo.png" style="height: 45px; width: 45px;">
+                </div>
+                <h3>Samsung Galaxy A56 5G 12GB/256GB</h3>
+                <div class="item-config">
+                    <span>Full HD+</span>
+                    <span>6.7"</span>
+                </div>
+                <strong class="price">11.490.000₫
+                    <span class="price-and-discount">
+                        <label class="price-old">11.990.000₫</label>
+                        <small>-4%</small>
+                    </span>
+                </strong>
+                <p class="item-gift">Ưu đãi 2.190.000₫</p>
+                <div class="item-bnt"><button>Mua ngay</button></div>
+            </div>
+            <div class="item-product-privilege">
+                <div class="item-lable">
+                    <span class="ln-new">Mẫu mới</span>
+                    <span class="lb-tragop">Trả chậm 0%</span>
+                </div>
+                <div class="picture-run"><img class="item-img" src="../image/product-privilege4.jpg">
+                    <img src="../image/label-privilege-logo.png" style="height: 45px; width: 45px;">
+                </div>
+                <h3>Samsung Galaxy A56 5G 12GB/256GB</h3>
+                <div class="item-config">
+                    <span>Full HD+</span>
+                    <span>6.7"</span>
+                </div>
+                <strong class="price">11.490.000₫
+                    <span class="price-and-discount">
+                        <label class="price-old">11.990.000₫</label>
+                        <small>-4%</small>
+                    </span>
+                </strong>
+                <p class="item-gift">Ưu đãi 2.190.000₫</p>
+                <div class="item-bnt"><button>Mua ngay</button></div>
+            </div>
+        </div>
+    </div> -->
+    <!-- <div class="block-protomo">
+        <br>
+        <h3>Gian hàng ưu đãi</h3>
+    </div>
+    <section class="special-offer-booth">
+        <div class="booth-container">
+            <div class="item-booth"><a href=""><img class="sliders-booth" src="../image/booth1.png"></a></div>
+            <div class="item-booth"><a href=""><img class="sliders-booth" src="../image/booth2.png"></a></div>
+            <div class="item-booth"><a href=""><img class="sliders-booth" src="../image/booth3.png"></a></div>
+            <div class="item-booth"><a href=""><img class="sliders-booth" src="../image/booth4.png"></a></div>
+        </div> -->
+    @* </section> *@
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>Tổng đài hỗ trợ</h3>
+                <ul>
+                    <li>Gọi mua: <a href="tel:1900232460">1900 232 460</a> (8:00 - 21:30)</li>
+                    <li>Khiếu nại: <a href="tel:18001062">1800 1062</a> (8:00 - 21:30)</li>
+                    <li>Bảo hành: <a href="tel:1900232464">1900 232 464</a> (8:00 - 21:00)</li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Về công ty</h3>
+                <ul>
+                    <li><a href="#">Giới thiệu công ty (MWG.vn)</a></li>
+                    <li><a href="#">Tuyển dụng</a></li>
+                    <li><a href="#">Gửi góp ý, khiếu nại</a></li>
+                    <li><a href="#">Tìm siêu thị (2.959 shop)</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3>Thông tin khác</h3>
+                <ul>
+                    <li><a href="#">Tích điểm Quà tặng VIP</a></li>
+                    <li><a href="#">Lịch sử mua hàng</a></li>
+                    <li><a href="#">Đăng ký bán hàng CTV chiết khấu cao</a></li>
+                    <li><a href="#">Tìm hiểu về mua trả chậm</a></li>
+                    <li><a href="#">Chính sách bảo hành</a></li>
+                    <li><a href="#" id="xemThem">Xem thêm</a></li>
+                </ul>
+            </div>
+
+            @* <div class="footer-column">
+                <h3>Website cùng tập đoàn</h3>
+                <div class="website-group">
+                    <div class="website-row">
+                        <a href="#"><img src="~/img/topzone.png" alt="TopZone"></a>
+                        <a href="#"><img src="~/img/dienmayxanh.png" alt="Điện máy xanh"></a>
+                        <a href="#"><img src="~/img/bachhoaxanh.png" alt="Bách hóa xanh"></a>
+                        <a href="#"><img src="~/img/nhathuocankhang.png" alt="Nhà thuốc an khang"></a>
+                    </div>
+                    <div class="website-row">
+                        <a href="#"><img src="~/img/avakids.png" alt="AVAKids"></a>
+                        <a href="#"><img src="~/img/vieclam.png" alt="Việc làm"></a>
+                        <a href="#"><img src="~/img/arablue.png" alt="4KFarm"></a>
+                        <a href="#"><img src="~/img/thegioithoitrang.png" alt="Thế giới thời trang"></a>
+                    </div>
+                </div>
+                <div class="social-connect">
+                    <div class="connect-row">
+                        <a href="#" class="social-item">
+                            <i class="fab fa-facebook"></i>
+                            3886.8k Fan
+                        </a>
+                        <a href="#" class="social-item">
+                            <i class="fab fa-youtube"></i>
+                            873k Đăng ký
+                        </a>
+                        <a href="#" class="social-item">
+                            <i class="fab fa-telegram"></i>
+                            Zalo TGDD
+                        </a>
+                    </div>
+                    <div class="certification-row">
+                        <a href="#"><img src="~/img/certification1.png" alt="Chứng nhận 1"></a>
+                        <a href="#"><img src="~/img/certification2.png" alt="Chứng nhận 2"></a>
+                        <a href="#"><img src="~/img/certification3.png" alt="Chứng nhận 3"></a>
+                        <a href="#"><img src="~/img/certification4.png" alt="Chứng nhận 4"></a>
+                    </div>  
+                </div>
+            </div> *@
+        </div>
+        <div class="footer-bottom">
+            <p>© 2018. Công ty cổ phần Thế Giới Di Động. GPDKKD: 0303217354 do sở KH & ĐT TP.HCM cấp ngày 02/01/2007. GPMXH: 238/GP-BTTTT do Bộ Thông Tin và Truyền Thông cấp ngày 04/06/2020.</p>
+            <p>Địa chỉ: 128 Trần Quang Khải, P.Tân Định, Q.1, TP.Hồ Chí Minh. Địa chỉ liên hệ và gửi chứng từ: Lô T2-1.2, Đường D1, Đ. D1, P.Tân Phú, TP.Thủ Đức, TP.Hồ Chí Minh. Điện thoại: 028 38125960. Email: cskh@thegioididong.com. Chịu trách nhiệm nội dung: Huỳnh Văn Tốt. Email: hotrotmdt@thegioididong.com. <a href="#">Xem chính sách sử dụng</a></p>
+        </div>
+    </footer>
+
+    
+</body>
+
+</html>
+
+<style>
+    .badge {
+        font-size: 14px;
+        padding: 5px 10px;
+    }
+
+    .btn-danger {
+        background-color: #d70018;
+        border-color: #d70018;
+    }
+
+    .text-danger {
+        color: #d70018 !important;
+    }
+
+    .input-group .btn {
+        z-index: 0;
+    }
+
+    .input-group input[type="number"] {
+        text-align: center;
+    }
+
+    /* Ẩn mũi tên tăng giảm mặc định của input number */
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    /* CSS cho sản phẩm */
+    .item-product {
+        padding: 10px;
+        border-radius: 10px;
+        background: #fff;
+        margin: 10px;
+        width: calc(20% - 20px);
+        box-shadow: 0 1px 2px 0 rgba(60,64,67,.1), 0 2px 6px 2px rgba(60,64,67,.15);
+    }
+
+    .picture-run {
+        position: relative;
+        width: 100%;
+        padding-top: 100%; /* Tạo khung hình vuông */
+        overflow: hidden;
+    }
+
+    .item-img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: contain; /* Giữ tỷ lệ ảnh và đảm bảo ảnh hiển thị đầy đủ */
+    }
+
+    .display-products-Fsale {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        margin: 0 -10px;
+    }
+
+    /* Responsive */
+    media (max-width: 1200px) {
+        .item-product {
+            width: calc(25% - 20px);
+        }
+    }
+
+    media (max-width: 992px) {
+        .item-product {
+            width: calc(33.33% - 20px);
+        }
+    }
+
+    media (max-width: 768px) {
+        .item-product {
+            width: calc(50% - 20px);
+        }
+    }
+
+   media (max-width: 576px) {
+        .item-product {
+            width: calc(100% - 20px);
+        }
+    }
+</style>

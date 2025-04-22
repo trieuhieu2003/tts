@@ -19,9 +19,9 @@ namespace tts.Products
         [Required]
         public decimal Price { get; set; }
 
+        
+
         [Required]
-
-
         public string ImageUrl { get; set; }
 
         public int Discount { get; set; }

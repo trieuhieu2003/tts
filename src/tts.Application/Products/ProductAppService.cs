@@ -145,7 +145,17 @@ namespace tts.Products
             // Lọc theo sắp xếp nếu có
             if (!string.IsNullOrWhiteSpace(input.Sorting))
             {
-                products = products.OrderBy(input.Sorting);
+                if (input.Sorting.ToLower().Contains("namecategory"))
+                {
+                    var isDesc = input.Sorting.ToLower().EndsWith("desc");
+                    products = isDesc
+                        ? products.OrderByDescending(p => p.Category.NameCategory)
+                        : products.OrderBy(p => p.Category.NameCategory);
+                }
+                else
+                {
+                    products = products.OrderBy(input.Sorting);
+                }
             }
 
             // Lấy kết quả phân trang
@@ -229,9 +239,26 @@ namespace tts.Products
         [AbpAuthorize]
         public async Task<ProductDto> GetProducts(int id)
         {
+            var product = await _productRepository.GetAllIncluding(p => p.Category)
+                .FirstOrDefaultAsync(p => p.Id == id);
 
-            var product = await _productRepository.GetAsync(id);
-            return ObjectMapper.Map<ProductDto>(product);
+            if (product == null)
+            {
+                return null;
+            }
+
+            return new ProductDto
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Price = product.Price,
+                ImageUrl = product.ImageUrl,
+                Discount = product.Discount,
+                CategoryId = product.CategoryId ?? 0,
+                NameCategory = product.Category?.NameCategory ?? "",
+                CreationTime = product.CreationTime,
+                LastModificationTime = product.LastModificationTime
+            };
         }
     }
 }

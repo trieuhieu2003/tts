@@ -1,0 +1,152 @@
+﻿@using tts.Web.Startup
+@model tts.Products.Dto.ProductDto
+
+@{
+    ViewBag.Title = "Chi tiết sản phẩm";
+}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+
+<div class="container mt-5">
+    <div class="row">
+        <!-- Hình ảnh sản phẩm -->
+        <div class="col-md-6">
+            <img src="@Model.ImageUrl" alt="@Model.Name" class="img-fluid border" style="width: 100%; height: auto;" />
+        </div>
+
+        <!-- Thông tin sản phẩm -->
+        <div class="col-md-6">
+            <h3>@Model.Name</h3>
+
+            @if (Model.Discount > 0)
+            {
+                <!-- Flash Sale -->
+                <div class="bg-warning p-2 text-white font-weight-bold d-inline-block rounded">
+                    🔥 FLASH SALE
+                </div>
+
+                <!-- Giá -->
+                <div style="font-size:30px" class="mt-3">
+                    <strong class="price">
+                        @Model.Price.ToString("N0")₫
+                        <span class="price-and-discount">
+                            <del class="text-muted">@((Model.Price * (1 + Model.Discount / 100.0m)).ToString("N0"))₫</del>
+                            <span class="badge bg-danger text-white">-@Model.Discount%</span>
+                        </span>
+                    </strong>
+                </div>
+            }
+            else
+            {
+                <!-- Giá -->
+                <div class="mt-3">
+                    <h4 class="text-danger font-weight-bold">@Model.Price.ToString("N0")₫</h4>
+                </div>
+            }
+
+            <!-- Đồng hồ đếm ngược (fake UI) -->
+            <div class="mt-2">
+                <span>Kết thúc trong</span>
+                <span class="bg-danger text-white px-2 py-1 rounded">00 : 01 : 15 : 40</span>
+            </div>
+
+            <!-- Số lượng -->
+            <div class="mt-3">
+                <label>Số lượng:</label>
+                <div class="input-group" style="width: 150px;">
+                    <button class="btn btn-outline-secondary" type="button" id="decrease">-</button>
+                    <input type="number" class="form-control text-center" value="1" min="1" id="quantity">
+                    <button class="btn btn-outline-secondary" type="button" id="increase">+</button>
+                </div>
+            </div>
+
+            <!-- Nút mua ngay -->
+            <div class="mt-3">
+                <button class="btn btn-danger btn-lg w-100 text-uppercase font-weight-bold">
+                    Mua ngay
+                </button>
+                <small class="d-block text-center text-muted">Giao tận nơi hoặc nhận tại cửa hàng</small>
+            </div>
+
+            <!-- Thông tin -->
+            <div class="mt-4">
+                <h5>Thông tin sản phẩm:</h5>
+                <ul class="list-unstyled">
+                    <li>- Danh mục: @Model.NameCategory</li>
+                    <li>- Giá gốc: @Model.Price.ToString("N0")₫</li>
+                    @if (Model.Discount > 0)
+                    {
+                        <li>- Giảm giá: @Model.Discount%</li>
+                    }
+                </ul>
+
+                <h5 class="mt-3">Chính sách bán hàng:</h5>
+                <ul class="list-unstyled">
+                    <li>- Hỗ trợ đổi mới trong 7 ngày</li>
+                    <li>- Bảo hành chính hãng 36 tháng</li>
+                    <li>- Hỗ trợ trả góp MPOS, HDSAISON</li>
+                    <li>- Miễn phí giao hàng toàn quốc</li>
+                    <li>- Thanh toán khi nhận hàng</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        $(document).ready(function() {
+            // Xử lý tăng giảm số lượng
+            $('#increase').click(function() {
+                var value = parseInt($('#quantity').val());
+                $('#quantity').val(value + 1);
+            });
+
+            $('#decrease').click(function() {
+                var value = parseInt($('#quantity').val());
+                if (value > 1) {
+                    $('#quantity').val(value - 1);
+                }
+            });
+
+            // Ngăn người dùng nhập số âm hoặc 0
+            $('#quantity').on('change', function() {
+                var value = parseInt($(this).val());
+                if (value < 1) {
+                    $(this).val(1);
+                }
+            });
+        });
+    </script>
+}
+
+<style>
+    .badge {
+        font-size: 14px;
+        padding: 5px 10px;
+    }
+
+    .btn-danger {
+        background-color: #d70018;
+        border-color: #d70018;
+    }
+
+    .text-danger {
+        color: #d70018 !important;
+    }
+
+    .input-group .btn {
+        z-index: 0;
+    }
+
+    .input-group input[type="number"] {
+        text-align: center;
+    }
+
+    /* Ẩn mũi tên tăng giảm mặc định của input number */
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+</style>

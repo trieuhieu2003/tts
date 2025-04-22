@@ -29,12 +29,12 @@
                 var filter = $('#ProductsSearchForm').serializeFormToObject(true);
                 var dataTable = _$table.DataTable();
                 var order = dataTable.order();
-                
+
                 // Lấy giá trị từ input trong dropdown
                 var minPrice = parseFloat($('.dropdown-menu input[name="MinPrice"]').val());
                 var maxPrice = parseFloat($('.dropdown-menu input[name="MaxPrice"]').val());
                 var categoryId = $('.dropdown-menu select[name="CategoryId"]').val();
-                
+
                 // Thêm giá trị vào filter nếu có
                 if (!isNaN(minPrice)) {
                     filter.MinPrice = minPrice;
@@ -58,7 +58,7 @@
                 return filter;
             }
         },
-        
+
 
         buttons: [
             {
@@ -403,13 +403,13 @@
     });
 
     // Thêm sự kiện cho nút tìm kiếm trong dropdown
-    $('.dropdown-menu .btn-search').on('click', function() {
+    $('.dropdown-menu .btn-search').on('click', function () {
         _$productsTable.ajax.reload();
         $('.dropdown-menu').removeClass('show');
     });
 
     // Thêm sự kiện cho nút xóa trong dropdown
-    $('.dropdown-menu .btn-clear').on('click', function() {
+    $('.dropdown-menu .btn-clear').on('click', function () {
         $('.dropdown-menu input[name="MinPrice"]').val('');
         $('.dropdown-menu input[name="MaxPrice"]').val('');
         _$productsTable.ajax.reload();
@@ -417,7 +417,7 @@
     });
 
     // Thêm validation cho input giá
-    $('.dropdown-menu input[name="MinPrice"], .dropdown-menu input[name="MaxPrice"]').on('input', function() {
+    $('.dropdown-menu input[name="MinPrice"], .dropdown-menu input[name="MaxPrice"]').on('input', function () {
         var value = parseFloat($(this).val());
         if (!isNaN(value) && value < 0) {
             $(this).val(0);
@@ -425,7 +425,7 @@
     });
 
     // Thêm sự kiện cho phím Enter trong input giá
-    $('.dropdown-menu input[name="MinPrice"], .dropdown-menu input[name="MaxPrice"]').on('keypress', function(e) {
+    $('.dropdown-menu input[name="MinPrice"], .dropdown-menu input[name="MaxPrice"]').on('keypress', function (e) {
         if (e.which == 13) {
             e.preventDefault();
             $('.dropdown-menu .btn-search').click();
