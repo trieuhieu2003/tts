@@ -25,6 +25,8 @@
     <title>Thế giới di động</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+
     <link rel="stylesheet" href="../styles/interface.css">
     <link rel="stylesheet" href="~/css/style.css">
 
@@ -390,238 +392,32 @@
             <h3><br>&nbsp;&nbsp;&nbsp;&nbsp;Gợi ý cho bạn</h3>
         </div>
         <div class="display-products-Fsale">
-            <div class="item-product">
-                <div class="picture-run"><img class="item-img" src="../image/item7.jpg"></div>
-                <h3>HP Pavilion 15 eg3094TU i5 1335U (8C5L5PA)</h3>
-                <div>
-                    <strong class="price">
-                        15.490.000₫
-                        <span class="price-and-discount">
-                            <label class="price-old">19.990.000₫</label><small>-22%</small>
-                        </span>
-                    </strong>
+            @for (int i = 0; i < 5; i++)
+            {
+                <div class="item-product">
+                    <div class="picture-run">
+                        <img class="item-img" src="@Model[i].ImageUrl" alt="@Model[i].Name">
+                    </div>
+                    <h3 class="item-title">@Model[i].Name</h3>
+                    <div class="item-price">
+                        <strong>@Model[i].Price.ToString("N0")₫</strong>
+                        @if (Model[i].Discount > 0)
+                        {
+                            <span class="price-and-discount">
+                                <del>@((Model[i].Price * (1 + Model[i].Discount / 100.0m)).ToString("N0"))₫</del>
+                                <span class="badge bg-danger">-@Model[i].Discount%</span>
+                            </span>
+                        }
+                    </div>
+                    <div class="item-bnt">
+                        <a href="@Url.Action("Viewdetails", "Home", new { id = Model[i].Id })" class="btn btn-danger">Mua ngay</a>
+                    </div>
                 </div>
-                <div class="fireFlashSale">
-                    <img src="..//image/flash-sale.png">
-                    <span class="countdown-flashsale">
-                        <b style=" font-size: 13px; font-weight: 400;">Còn 10/10 suất</b>
-                    </span>
-                </div>
-                <div class="item-bnt"><button>Mua ngay</button></div>
-            </div>
-            <div class="item-product">
-                <div class="picture-run"><img class="item-img" src="../image/item1.jpg"></div>
-                <h3>Xiaomi 14T 5G 12GB/256GB</h3>
-                <strong class="price">
-                    10.990.000₫
-                    <span class="price-and-discount">
-                        <label class="price-old">
-                            12.990.000₫
-                        </label><small>-15%</small>
-                    </span>
-                </strong>
-                <div class="fireFlashSale">
-                    <img src="..//image/flash-sale.png">
-                    <span class="countdown-flashsale">
-                        <b style=" font-size: 13px; font-weight: 400;">Còn 6/10 suất</b>
-                    </span>
-                </div>
-                <div class="item-bnt"><button>Mua ngay</button></div>
-            </div>
-            <div class="item-product">
-                <div class="picture-run"><img class="item-img" src="../image/item2.jpg"></div>
-                <h3>HONOR X9c Smart 5G 12GB/256GB</h3>
-                <strong class="price">
-                    7.190.000₫
-                    <span class="price-and-discount">
-                        <label class="price-old">
-                            7.990.000₫
-                        </label><small>-10%</small>
-                    </span>
-                </strong>
-                <div class="fireFlashSale">
-                    <img src="..//image/flash-sale.png">
-                    <span class="countdown-flashsale">
-                        <b style=" font-size: 13px; font-weight: 400;">Còn 8/10 suất</b>
-                    </span>
-                </div>
-                <div class="item-bnt"><button>Mua ngay</button></div>
-            </div>
-            <div class="item-product">
-                <div class="picture-run"><img class="item-img" src="../image/item3.jpg"></div>
-                <h3>CITIZEN 27 mm Nữ EQ0603-59F</h3>
-                <strong class="price">
-                    2.431.000₫
-                    <span class="price-and-discount">
-                        <label class="price-old">
-                            4.085.000₫
-                        </label><small>-40%</small>
-                    </span>
-                </strong>
-                <div class="fireFlashSale">
-                    <img src="..//image/flash-sale.png">
-                    <span class="countdown-flashsale">
-                        <b style=" font-size: 13px; font-weight: 400;">Còn 5/5 suất</b>
-                    </span>
-                </div>
-                <div class="item-bnt"><button>Mua ngay</button></div>
-            </div>
-            <div class="item-product">
-                <div class="picture-run"><img class="item-img" src="../image/item4.jpg"></div>
-                <h3>Camera IP 360 Độ 5MP 365 Selection C2</h3>
-                <strong class="price">
-                    690.000₫
-                    <span class="price-and-discount">
-                        <label class="price-old">
-                            890.000₫
-                        </label><small>-22%</small>
-                    </span>
-                </strong>
-                <div class="fireFlashSale">
-                    <img src="..//image/flash-sale.png">
-                    <span class="countdown-flashsale">
-                        <b style=" font-size: 13px; font-weight: 400;">Còn 5/5 suất</b>
-                    </span>
-                </div>
-                <div class="item-bnt"><button>Mua ngay</button></div>
-            </div>
-            <div class="item-product">
-                <div class="picture-run"><img class="item-img" src="../image/item5.jpg"></div>
-                <h3>Máy in phun màu đa năng HP SmartTank 520 (1F3W2A)</h3>
-                <strong class="price">
-                    2.490.000₫
-                    <span class="price-and-discount">
-                        <label class="price-old">
-                            3.390.000₫
-                        </label><small>-26%</small>
-                    </span>
-                </strong>
-                <div class="fireFlashSale">
-                    <img src="..//image/flash-sale.png">
-                    <span class="countdown-flashsale">
-                        <b style=" font-size: 13px; font-weight: 400;">Còn 3/5 suất</b>
-                    </span>
-                </div>
-                <div class="item-bnt"><button>Mua ngay</button></div>
-            </div>
+            }
         </div>
-        <div class="display-products-Fsale">
-            <div class="item-product">
-                <div class="picture-run"><img class="item-img" src="../image/item7.jpg"></div>
-                <h3>HP Pavilion 15 eg3094TU i5 1335U (8C5L5PA)</h3>
-                <div>
-                    <strong class="price">
-                        15.490.000₫
-                        <span class="price-and-discount">
-                            <label class="price-old">19.990.000₫</label><small>-22%</small>
-                        </span>
-                    </strong>
-                </div>
-                <div class="fireFlashSale">
-                    <img src="..//image/flash-sale.png">
-                    <span class="countdown-flashsale">
-                        <b style=" font-size: 13px; font-weight: 400;">Còn 10/10 suất</b>
-                    </span>
-                </div>
-                <div class="item-bnt"><button>Mua ngay</button></div>
-            </div>
-            <div class="item-product">
-                <div class="picture-run"><img class="item-img" src="../image/item1.jpg"></div>
-                <h3>Xiaomi 14T 5G 12GB/256GB</h3>
-                <strong class="price">
-                    10.990.000₫
-                    <span class="price-and-discount">
-                        <label class="price-old">
-                            12.990.000₫
-                        </label><small>-15%</small>
-                    </span>
-                </strong>
-                <div class="fireFlashSale">
-                    <img src="..//image/flash-sale.png">
-                    <span class="countdown-flashsale">
-                        <b style=" font-size: 13px; font-weight: 400;">Còn 6/10 suất</b>
-                    </span>
-                </div>
-                <div class="item-bnt"><button>Mua ngay</button></div>
-            </div>
-            <div class="item-product">
-                <div class="picture-run"><img class="item-img" src="../image/item2.jpg"></div>
-                <h3>HONOR X9c Smart 5G 12GB/256GB</h3>
-                <strong class="price">
-                    7.190.000₫
-                    <span class="price-and-discount">
-                        <label class="price-old">
-                            7.990.000₫
-                        </label><small>-10%</small>
-                    </span>
-                </strong>
-                <div class="fireFlashSale">
-                    <img src="..//image/flash-sale.png">
-                    <span class="countdown-flashsale">
-                        <b style=" font-size: 13px; font-weight: 400;">Còn 8/10 suất</b>
-                    </span>
-                </div>
-                <div class="item-bnt"><button>Mua ngay</button></div>
-            </div>
-            <div class="item-product">
-                <div class="picture-run"><img class="item-img" src="../image/item3.jpg"></div>
-                <h3>CITIZEN 27 mm Nữ EQ0603-59F</h3>
-                <strong class="price">
-                    2.431.000₫
-                    <span class="price-and-discount">
-                        <label class="price-old">
-                            4.085.000₫
-                        </label><small>-40%</small>
-                    </span>
-                </strong>
-                <div class="fireFlashSale">
-                    <img src="..//image/flash-sale.png">
-                    <span class="countdown-flashsale">
-                        <b style=" font-size: 13px; font-weight: 400;">Còn 5/5 suất</b>
-                    </span>
-                </div>
-                <div class="item-bnt"><button>Mua ngay</button></div>
-            </div>
-            <div class="item-product">
-                <div class="picture-run"><img class="item-img" src="../image/item4.jpg"></div>
-                <h3>Camera IP 360 Độ 5MP 365 Selection C2</h3>
-                <strong class="price">
-                    690.000₫
-                    <span class="price-and-discount">
-                        <label class="price-old">
-                            890.000₫
-                        </label><small>-22%</small>
-                    </span>
-                </strong>
-                <div class="fireFlashSale">
-                    <img src="..//image/flash-sale.png">
-                    <span class="countdown-flashsale">
-                        <b style=" font-size: 13px; font-weight: 400;">Còn 5/5 suất</b>
-                    </span>
-                </div>
-                <div class="item-bnt"><button>Mua ngay</button></div>
-            </div>
-            <div class="item-product">
-                <div class="picture-run"><img class="item-img" src="../image/item5.jpg"></div>
-                <h3>Máy in phun màu đa năng HP SmartTank 520 (1F3W2A)</h3>
-                <strong class="price">
-                    2.490.000₫
-                    <span class="price-and-discount">
-                        <label class="price-old">
-                            3.390.000₫
-                        </label><small>-26%</small>
-                    </span>
-                </strong>
-                <div class="fireFlashSale">
-                    <img src="..//image/flash-sale.png">
-                    <span class="countdown-flashsale">
-                        <b style=" font-size: 13px; font-weight: 400;">Còn 3/5 suất</b>
-                    </span>
-                </div>
-                <div class="item-bnt"><button>Mua ngay</button></div>
-            </div>
+        <div class="text-center mt-4">
+            <a href="@Url.Action("Index", "Product")" class="btn btn-outline-danger">Xem tất cả sản phẩm</a>
         </div>
-    </div>
     </div>
     <!-- <div class="product-privilege">
         <div class="index-privilege">

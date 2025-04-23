@@ -18,36 +18,7 @@
     </environment>
 
     }
-@{
-    var canCreate = await PermissionChecker.IsGrantedAsync(PermissionNames.Pages_Products_Create);
-}
 
-
-<section class="content-header">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-sm-6">
-                <h1>@L("Product")</h1>
-            </div>
-            <div class="col-sm-6">
-                @if (canCreate)
-                {
-                    <button class=" btn bg-blue float-sm-right" data-toggle="modal" data-target="#createModal">
-                        <i class="fa fa-plus-square"></i>
-                        @L("Create")
-                    </button>
-                }
-                else
-                {
-                    <button class="btn bg-blue float-sm-right" onclick="abp.message.warn('Bạn không đủ quyền để tạo sản phẩm!')">
-                        <i class="fa fa-plus-square"></i>
-                        @L("Create")
-                    </button>
-                }
-            </div>
-        </div>
-    </div>
-</section>
 
 <section>
     <div class="container-fluid">
@@ -59,9 +30,9 @@
                             <div class="col-md-6">
                                 <!--Use for bulk actions-->
                             </div>
-                            <div class="col-md-6">
+                            @* <div class="col-md-6">
                                 @await Html.PartialAsync("~/Views/Product/Index.AdvancedSearch.cshtml")
-                            </div>
+                            </div> *@
                         </div>
                     </div>
                     <div class="card-body">
@@ -89,7 +60,7 @@
         </div>
     </div>
 </section>
-@await Html.PartialAsync("~/Views/Product/_CreateModal.cshtml", Model)
+@* @await Html.PartialAsync("~/Views/Product/_CreateModal.cshtml", Model)
 
 
 <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel " data-backdrop="static">
@@ -97,4 +68,4 @@
         <div class="modal-content">
         </div>
     </div>
-</div>
+</div> *@

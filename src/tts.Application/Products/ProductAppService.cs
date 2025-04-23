@@ -157,6 +157,10 @@ namespace tts.Products
                     products = products.OrderBy(input.Sorting);
                 }
             }
+            else
+            {
+                products = products.OrderByDescending(p => p.CreationTime);
+            }
 
             // Lấy kết quả phân trang
             var items = await products.PageBy(input).ToListAsync();

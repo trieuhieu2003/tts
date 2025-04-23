@@ -1,0 +1,293 @@
+﻿@using tts.Web.Startup
+@model tts.Products.Dto.ProductDto
+
+@{
+    ViewBag.Title = "Thanh toán";
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanh toán</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #dc3545;
+            --secondary-color: #6c757d;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+        }
+
+        h2, h4 {
+            color: var(--dark-color);
+            font-weight: 600;
+        }
+
+        .card {
+            border: none;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            margin-bottom: 20px;
+        }
+
+            .card:hover {
+                box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+            }
+
+        .card-header {
+            background-color: white;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            font-weight: 600;
+            padding: 1rem 1.25rem;
+            border-radius: var(--border-radius) var(--border-radius) 0 0 !important;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .form-control {
+            border-radius: var(--border-radius);
+            padding: 0.75rem 1rem;
+            border: 1px solid #ced4da;
+            transition: var(--transition);
+        }
+
+            .form-control:focus {
+                border-color: var(--primary-color);
+                box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
+            }
+
+        label {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--secondary-color);
+        }
+
+        .btn-danger {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            padding: 0.75rem;
+            font-weight: 500;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+            .btn-danger:hover {
+                background-color: #c82333;
+                border-color: #bd2130;
+                transform: translateY(-2px);
+            }
+
+            .btn-danger:active {
+                transform: translateY(0);
+            }
+
+        hr {
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            margin: 1rem 0;
+        }
+
+        .text-danger {
+            color: var(--primary-color) !important;
+            font-size: 1.1rem;
+        }
+
+        /* Floating label effect */
+        .form-group {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+            .form-group label {
+                position: absolute;
+                top: 0.75rem;
+                left: 1rem;
+                color: var(--secondary-color);
+                transition: var(--transition);
+                pointer-events: none;
+                background-color: white;
+                padding: 0 0.25rem;
+            }
+
+        .form-control:focus + label,
+        .form-control:not(:placeholder-shown) + label {
+            top: -0.5rem;
+            left: 0.8rem;
+            font-size: 0.8rem;
+            color: var(--primary-color);
+            background-color: white;
+        }
+
+        /* Payment method select styling */
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 16px 12px;
+        }
+
+        /* Responsive adjustments */
+        media (max-width: 768px) {
+            .card
+
+        {
+            margin-bottom: 1.5rem;
+        }
+
+        .col-md-8, .col-md-4 {
+            padding: 0 15px;
+        }
+
+        }
+
+        /* Animation for order button */
+        keyframes pulse {
+            0%
+
+        {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.05);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+
+        }
+
+        .btn-danger:hover {
+            animation: pulse 1.5s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Thanh toán</h2>
+
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h4><i class="fas fa-credit-card me-2"></i>Thông tin thanh toán</h4>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="fullname" placeholder=" " required>
+                                <label for="fullname">Họ và tên</label>
+                            </div>
+                            <div class="form-group">
+                                <input type="tel" class="form-control" id="phone" placeholder=" " required>
+                                <label for="phone">Số điện thoại</label>
+                            </div>
+                            <div class="form-group">
+                                <textarea class="form-control" id="address" rows="3" placeholder=" " required></textarea>
+                                <label for="address">Địa chỉ</label>
+                            </div>
+                            <div class="form-group">
+                                <label>Phương thức thanh toán</label>
+                                <select class="form-control">
+                                    <option>Thanh toán khi nhận hàng (COD)</option>
+                                    <option>Chuyển khoản ngân hàng</option>
+                                    <option>Ví điện tử Momo</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h4><i class="fas fa-shopping-bag me-2"></i>Đơn hàng của bạn</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Tạm tính:</span>
+                            <span>0₫</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Phí vận chuyển:</span>
+                            <span>30,000₫</span>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between">
+                            <strong>Tổng cộng:</strong>
+                            <strong class="text-danger">30,000₫</strong>
+                        </div>
+                        <button class="btn btn-danger btn-block mt-3">
+                            <i class="fas fa-paper-plane me-2"></i>Đặt hàng
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Phone number formatting
+        document.getElementById('phone').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+
+            if (value.length > 0) {
+                value = value.match(/(\d{0,4})(\d{0,3})(\d{0,3})/);
+                value = value[1] + (value[2] ? '.' + value[2] : '') + (value[3] ? '.' + value[3] : '');
+            }
+
+            e.target.value = value;
+        });
+
+        // Form validation
+        document.querySelector('.btn-danger').addEventListener('click', function() {
+            const form = document.querySelector('form');
+            const inputs = form.querySelectorAll('[required]');
+            let isValid = true;
+
+            inputs.forEach(input => {
+                if (!input.value) {
+                    input.classList.add('is-invalid');
+                    isValid = false;
+                } else {
+                    input.classList.remove('is-invalid');
+                }
+            });
+
+            if (isValid) {
+                this.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Đang xử lý...';
+                this.disabled = true;
+
+                // Simulate form submission
+                setTimeout(() => {
+                    alert('Đơn hàng của bạn đã được đặt thành công!');
+                    this.innerHTML = '<i class="fas fa-check me-2"></i> Thành công';
+                }, 1500);
+            }
+        });
+    </script>
+</body>
+</html>

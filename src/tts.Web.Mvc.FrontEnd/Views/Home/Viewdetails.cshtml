@@ -4,25 +4,528 @@
 @{
     ViewBag.Title = "Chi tiết sản phẩm";
 }
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
 
-<div class="container mt-5">
-    <div class="row">
-        <!-- Hình ảnh sản phẩm -->
-        <div class="col-md-6">
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết sản phẩm</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+
+    <link rel="stylesheet" href="../styles/interface.css">
+    <link rel="stylesheet" href="~/css/style.css">
+    <style>
+        :root {
+            --primary-color: #d70018;
+            --secondary-color: #6c757d;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --border-radius: 12px;
+            --box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #f5f5f7;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+
+        .containers {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .product-image {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        .flash-sale {
+            display: inline-flex;
+            align-items: center;
+            background: linear-gradient(90deg, #ff4e00, #ff9500);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 14px;
+            margin-top: 12px;
+        }
+
+        .price {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .original-price {
+            font-size: 18px;
+            color: #6b7280;
+            text-decoration: line-through;
+            margin-left: 8px;
+        }
+
+        .discount-badge {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            width: 150px;
+            overflow: hidden;
+        }
+
+        .quantity-btn {
+            background: #f3f4f6;
+            border: none;
+            width: 40px;
+            height: 40px;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+            .quantity-btn:hover {
+                background: #e5e7eb;
+            }
+
+        .quantity-input {
+            width: 70px;
+            text-align: center;
+            border: none;
+            font-size: 16px;
+            font-weight: 500;
+            -moz-appearance: textfield;
+        }
+
+            .quantity-input::-webkit-outer-spin-button,
+            .quantity-input::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+
+        .buy-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            width: 100%;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+            .buy-btn:hover {
+                background-color: #b80014;
+                transform: translateY(-2px);
+            }
+
+        .add-to-cart-btn {
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            width: 100%;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+            .add-to-cart-btn:hover {
+                background-color: #2563eb;
+                transform: translateY(-2px);
+            }
+
+        .info-section {
+            margin-top: 24px;
+            padding-top: 16px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .info-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #1f2937;
+        }
+
+        .info-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+            .info-list li {
+                position: relative;
+                padding-left: 20px;
+                margin-bottom: 8px;
+                color: #4b5563;
+            }
+
+                .info-list li:before {
+                    content: "•";
+                    position: absolute;
+                    left: 0;
+                    color: var(--primary-color);
+                    font-weight: bold;
+                }
+
+        .delivery-note {
+            display: block;
+            text-align: center;
+            margin-top: 8px;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        media (max-width: 768px) {
+            .product-grid
+
+        {
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .price {
+            font-size: 24px;
+        }
+
+        .original-price {
+            font-size: 16px;
+        }
+
+        }
+
+        /* Animation for buttons */
+        keyframes pulse {
+            0%
+
+        {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.05);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+
+        }
+
+        .buy-btn:hover, .add-to-cart-btn:hover {
+            animation: pulse 1.5s infinite;
+        }
+    </style>
+</head>
+<body>
+    <header class="header-container">
+        <nav>
+            <div class="container">
+                <ul>
+                    <li><a href=""><img style="height: 60px; width: 270px;" src="~/img/logo.png" alt=""></a></li>
+                    <li><i class="fa-solid fa-magnifying-glass"></i><input type="text" placeholder="Bạn tìm gì..."></li>
+                    <li id="loginForm">
+                        <a href="#"></a><button id="loginButton">
+                            <i class="fa-solid fa-user"></i>Đăng
+                            nhập
+                        </button>
+                    </li>
+                    <div class="login-form">
+                        <div><img src="../image/TGDD-540x270.png"></div>
+                        <div class="login-container">
+                            <p>Tra cứu thông tin đơn hàng</p>
+                            <form action="#" method="post" id="phoneForm">
+                                <div class="form-group">
+                                    <i class="fa-solid fa-mobile-screen-button" style="color: #2113ea;"></i><input id="phone" class="phone" type="text" placeholder="Nhập số điện thoại mua hàng">
+                                    <span class="error-message" id="phoneError"></span>
+                                </div>
+                                <button type="submit" id="closeForm">Tiếp tục</button>
+                            </form>
+                            <!-- <p class="register-link">Chưa có tài khoản? <a href="#">Đăng ký ngay</a></p> -->
+                        </div>
+                    </div>
+                    <li><a href=""></a><button><i class="fa-solid fa-cart-shopping"></i>Giỏ hàng</button></li>
+                    <li id="address-form">
+                        <a href="#">
+                            <span class="address">
+                                <i class="fa-solid fa-location-dot"></i>An
+                                Giang
+                                <i style="margin-left: 10px;" class="fa-solid fa-angle-down"></i>
+                            </span>
+                        </a>
+                    </li>
+                    <div class="address-form">
+                        <div class="address-form-content">
+                            <h2>Chọn địa chỉ giao hàng<span id="address-close">Đóng</span></h2>
+                            <form action="#" method="POST">
+                                <div class="modal-content">
+                                    <p class="selected-location">
+                                        Chọn đầy đủ địa chỉ nhận hàng để biết chính xác thời
+                                        gian giao <strong></strong>
+                                    </p>
+
+                                    <!-- Ô tìm kiếm -->
+                                    <div class="search-box">
+                                        <i class="fa-solid fa-magnifying-glass"></i>
+                                        <input type="text" placeholder="Tìm nhanh tỉnh thành, quận huyện, phường xã">
+                                    </div>
+
+                                    <!-- Tabs lựa chọn -->
+                                    <div class="tabs-chose">
+                                        <select name="" id="">
+                                            <option value="#">--Chọn tỉnh thành (*)</option>
+                                            <option value="#">An Giang</option>
+                                        </select>
+                                        <select name="" id="">
+                                            <option value="#">--Chọn quận huyện (*)</option>
+                                            <option value="#">Thoại sơn</option>
+                                        </select>
+                                        <select name="" id="">
+                                            <option value="#">--Chọn phường xã (*)</option>
+                                            <option value="#">Vĩnh trạch</option>
+                                        </select>
+                                    </div>
+                                    <!-- Nút Submit -->
+                                    <button type="submit" class="submit-btn">Xác nhận</button>
+
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                    @* <li class="online">
+                        <a href="">
+                            <span class="btn-content">
+                                <span class="btn-top"></span>
+                            </span>Online
+                        </a>
+                    </li> *@
+                </ul>
+            </div>
+        </nav>
+        <section class="menu-bar">
+            <div class="container">
+                <div class="menu-bar-content">
+                    <ul>
+                        <li><a href=""><i class="fa-solid fa-mobile-screen-button"></i>Điện thoại</a></li>
+                        <li><a href=""><i class="fa-solid fa-laptop"></i></i>Laptop</a></li>
+                        <li>
+                            <a href="">
+                                <i class="fa-solid fa-headphones-simple"></i>Phụ kiện
+                                <i class="fa-solid fa-angle-down"></i>
+                            </a>
+                            <div class="submenu">
+                                <div class="title">
+                                    <h4>Phụ kiện di động</h4>
+                                </div>
+                                <div class="item">
+                                    <img src="~/img/phukien1.jpg">
+                                    <p>Sạc dự phòng</p>
+                                </div>
+                                <div class="item">
+                                    <img src="~/img/phukien2.jpg">
+                                    <p>Sạc, cáp</p>
+                                </div>
+                                <div class="item">
+                                    <img src="~/img/phukien3.jpg">
+                                    <p>Ốp lưng điện thoại</p>
+                                </div>
+                                <div class="item">
+                                    <img src="~/img/phukien4.jpg">
+                                    <p>Ốp lưng iPad</p>
+                                </div>
+                                <div class="item">
+                                    <img src="~/img/phukien5.jpg">
+                                    <p>Miếng dán</p>
+                                </div>
+                                <div class="item">
+                                    <img src="~/img/phukien6.jpg">
+                                    <p>Miếng dán Camera</p>
+                                </div>
+                                <div class="item">
+                                    <img src="~/img/phukien7.jpg">
+                                    <p>Túi đựng AirPods</p>
+                                </div>
+                                <div class="item">
+                                    <img src="~/img/phukien8.jpg">
+                                    <p>AirTag, Vỏ bảo vệ</p>
+                                </div>
+                                <div class="item">
+                                    <img src="~/img/phukien9.jpg">
+                                    <p>Dây đồng hồ</p>
+                                </div>
+
+                            </div>
+                        </li>
+                        <li><a href=""><i class="fa-solid fa-stopwatch"></i>SmartWatch</a></li>
+                        <li><a href=""><i class="fa-brands fa-safari"></i>Đồng hồ</a></li>
+                        <li><a href=""><i class="fa-solid fa-tablet-screen-button"></i>Tablet</a></li>
+                        <li>
+                            <a href="">
+                                <i class="fa-solid fa-mobile-retro"></i></i>Máy cũ, Thu cũ
+                                <i class="fa-solid fa-angle-down"></i>
+                            </a>
+                            <div class="submenu-old-machine">
+                                <div class="title">
+                                    <h4>Máy cũ, Thu mua</h4>
+                                </div>
+                                <div class="item">
+                                    <img src="~/img/maycu1.png">
+                                    <p>Máy cũ giá rẻ</p>
+                                </div>
+                                <div class="item">
+                                    <img src="~/img/thucu.png">
+                                    <p>Thu cũ đổi mới</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="">
+                                <i class="fa-solid fa-display"></i>Màn hình, Máy in
+                                <i class="fa-solid fa-angle-down"></i>
+                            </a>
+                            <div class="submenu-old-machine">
+                                <div class="title">
+                                    <h4>Máy cũ, Thu mua</h4>
+                                </div>
+                                <div class="item">
+                                    <img src="~/img/manhinh.png">
+                                    <p>Máy tính để bàn</p>
+                                </div>
+                                <div class="item">
+                                    <img src="~/img/manhinh-maytinh.png">
+                                    <p>Màn hình máy tính</p>
+                                </div>
+                                <div class="item">
+                                    <img src="~/img/maychoigame.png">
+                                    <p>Máy chơi game</p>
+                                </div>
+                                <div class="item">
+                                    <img src="~/img/phanmem.png">
+                                    <p>Phần mềm</p>
+                                </div>
+                            </div>
+                        </li>
+                        @*  <li>
+                            <a href="">
+                                <i class="fa-solid fa-sim-card"></i>Sim, Thẻ cào
+                                <i class="fa-solid fa-angle-down"></i>
+                            </a>
+                            <div class="submenu-old-machine">
+                                <div class="title">
+                                    <h4></h4>
+                                </div>
+                                <div class="item">
+                                    <img src="../image/sim.png">
+                                    <p>Sim, thẻ cào</p>
+                                </div>
+                                <div class="item">
+                                    <img src="../image/esim.png">
+                                    <p>eSim du lịch</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="">
+                                <i class="fa-regular fa-address-book"></i>Dịch vụ
+                                <i class="fa-solid fa-angle-down"></i>
+                            </a>
+                            <div class="submenu-service">
+                                <div class="title">
+                                    <h4>Thanh toán hóa đơn</h4>
+                                </div>
+                                <div class="item">
+                                    <img src="../image/dongtien-tragop.png">
+                                    <p>Đóng tiền trả góp</p>
+                                </div>
+                                <div class="item">
+                                    <img src="../image/tiendien.png">
+                                    <p>Đóng tiền điện</p>
+                                </div>
+                                <div class="item">
+                                    <img src="../image/tiennuoc.png">
+                                    <p>Đóng tiền nước</p>
+                                </div>
+                                <div class="item">
+                                    <img src="../image/vetau.png">
+                                    <p>Vé tàu, máy bay</p>
+                                </div>
+                                <div class="item">
+                                    <img src="../image/tienTV.png">
+                                    <p>Mua gói truyền hình</p>
+                                </div>
+                            </div>
+                        </li> *@
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </header>
+    <div class="containers py-8" style="margin-top:20px">
+        <div class="product-grid grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Product Image -->
+            <div class="product-card p-4">
             <img src="@Model.ImageUrl" alt="@Model.Name" class="img-fluid border" style="width: 100%; height: auto;" />
         </div>
 
+          
+
         <!-- Thông tin sản phẩm -->
-        <div class="col-md-6">
-            <h3>@Model.Name</h3>
+        <div class="col-md-6 text-uppercase font-weight-bold">
+                <h1 class="text-2xl md:text-3xl font-bold text-gray-900">@Model.Name</h1>
 
             @if (Model.Discount > 0)
             {
                 <!-- Flash Sale -->
-                <div class="bg-warning p-2 text-white font-weight-bold d-inline-block rounded">
-                    🔥 FLASH SALE
+                        <div class="flash-sale">
+                            <i class="fas fa-bolt mr-2"></i>
+                            FLASH SALE
                 </div>
 
                 <!-- Giá -->
@@ -30,8 +533,8 @@
                     <strong class="price">
                         @Model.Price.ToString("N0")₫
                         <span class="price-and-discount">
-                            <del class="text-muted">@((Model.Price * (1 + Model.Discount / 100.0m)).ToString("N0"))₫</del>
-                            <span class="badge bg-danger text-white">-@Model.Discount%</span>
+                                <del class="original-price">@((Model.Price * (1 + Model.Discount / 100.0m)).ToString("N0"))₫</del>
+                                <span class="discount-badge">-@Model.Discount%</span>
                         </span>
                     </strong>
                 </div>
@@ -44,109 +547,97 @@
                 </div>
             }
 
-            <!-- Đồng hồ đếm ngược (fake UI) -->
-            <div class="mt-2">
-                <span>Kết thúc trong</span>
-                <span class="bg-danger text-white px-2 py-1 rounded">00 : 01 : 15 : 40</span>
+            
+                <!-- Quantity -->
+                <div class="mt-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Số lượng:</label>
+                    <div class="quantity-control">
+                        <button class="quantity-btn" id="decrease">-</button>
+                        <input type="number" class="quantity-input" value="1" min="1" id="quantity">
+                        <button class="quantity-btn" id="increase">+</button>
+                    </div>
             </div>
 
-            <!-- Số lượng -->
-            <div class="mt-3">
-                <label>Số lượng:</label>
-                <div class="input-group" style="width: 150px;">
-                    <button class="btn btn-outline-secondary" type="button" id="decrease">-</button>
-                    <input type="number" class="form-control text-center" value="1" min="1" id="quantity">
-                    <button class="btn btn-outline-secondary" type="button" id="increase">+</button>
-                </div>
-            </div>
-
-            <!-- Nút mua ngay -->
-            <div class="mt-3">
-                <button class="btn btn-danger btn-lg w-100 text-uppercase font-weight-bold">
+                <!-- Buttons -->
+                <div class="mt-6">
+                    <button class="buy-btn">
+                        <a href="@Url.Action("PayMent", "Home", new { id = Model.Id, quantity = 1 })" class="btn btn-danger  btn-lg w-100 text-uppercase font-weight-bold">
                     Mua ngay
+                        </a>
                 </button>
-                <small class="d-block text-center text-muted">Giao tận nơi hoặc nhận tại cửa hàng</small>
+                    <button class="add-to-cart-btn">
+                        <i class="fas fa-shopping-cart mr-2"></i>
+                        Thêm vào giỏ hàng
+                    </button>
+                    <span class="delivery-note">Giao tận nơi hoặc nhận tại cửa hàng</span>
             </div>
 
-            <!-- Thông tin -->
-            <div class="mt-4">
-                <h5>Thông tin sản phẩm:</h5>
-                <ul class="list-unstyled">
-                    <li>- Danh mục: @Model.NameCategory</li>
-                    <li>- Giá gốc: @Model.Price.ToString("N0")₫</li>
-                    @if (Model.Discount > 0)
-                    {
-                        <li>- Giảm giá: @Model.Discount%</li>
-                    }
-                </ul>
+                <!-- Product Info -->
+                <div class="info-section">
+                    <h3 class="info-title">Thông tin sản phẩm:</h3>
+                    <ul class="list-unstyled">
+                        <li>- Danh mục: @Model.NameCategory</li>
+                        <li>- Giá gốc: @Model.Price.ToString("N0")₫</li>
+                        @if (Model.Discount > 0)
+                        {
+                            <li>- Giảm giá: @Model.Discount%</li>
+                        }
+                    </ul>
+                </div>
 
-                <h5 class="mt-3">Chính sách bán hàng:</h5>
-                <ul class="list-unstyled">
-                    <li>- Hỗ trợ đổi mới trong 7 ngày</li>
-                    <li>- Bảo hành chính hãng 36 tháng</li>
-                    <li>- Hỗ trợ trả góp MPOS, HDSAISON</li>
-                    <li>- Miễn phí giao hàng toàn quốc</li>
-                    <li>- Thanh toán khi nhận hàng</li>
+                <!-- Policies -->
+                <div class="info-section">
+                    <h3 class="info-title">Chính sách bán hàng:</h3>
+                    <ul class="info-list">
+                        
                 </ul>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-@section scripts {
     <script>
-        $(document).ready(function() {
-            // Xử lý tăng giảm số lượng
-            $('#increase').click(function() {
-                var value = parseInt($('#quantity').val());
-                $('#quantity').val(value + 1);
-            });
-
-            $('#decrease').click(function() {
-                var value = parseInt($('#quantity').val());
-                if (value > 1) {
-                    $('#quantity').val(value - 1);
-                }
-            });
-
-            // Ngăn người dùng nhập số âm hoặc 0
-            $('#quantity').on('change', function() {
-                var value = parseInt($(this).val());
-                if (value < 1) {
-                    $(this).val(1);
-                }
-            });
+        // Quantity control
+        document.getElementById('increase').addEventListener('click', function() {
+            const quantityInput = document.getElementById('quantity');
+            let value = parseInt(quantityInput.value);
+            quantityInput.value = value + 1;
         });
+
+        document.getElementById('decrease').addEventListener('click', function() {
+            const quantityInput = document.getElementById('quantity');
+            let value = parseInt(quantityInput.value);
+                if (value > 1) {
+                quantityInput.value = value - 1;
+            }
+        });
+
+        // Prevent negative numbers
+        document.getElementById('quantity').addEventListener('change', function() {
+            if (this.value < 1) {
+                this.value = 1;
+            }
+        });
+
+        // Button click effects
+        // const buyBtn = document.querySelector('.buy-btn');
+        // const addToCartBtn = document.querySelector('.add-to-cart-btn');
+
+        // buyBtn.addEventListener('click', function() {
+        //     this.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Đang xử lý...';
+        //     setTimeout(() => {
+        //         alert('Đơn hàng đã được tạo thành công!');
+        //         this.innerHTML = '<i class="fas fa-bolt mr-2"></i> Mua ngay';
+        //     }, 1500);
+        // });
+
+        // addToCartBtn.addEventListener('click', function() {
+        //     this.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Đang thêm...';
+        //     setTimeout(() => {
+        //         alert('Sản phẩm đã được thêm vào giỏ hàng!');
+        //         this.innerHTML = '<i class="fas fa-shopping-cart mr-2"></i> Thêm vào giỏ hàng';
+        //     }, 1500);
+        // });
     </script>
-}
-
-<style>
-    .badge {
-        font-size: 14px;
-        padding: 5px 10px;
-    }
-
-    .btn-danger {
-        background-color: #d70018;
-        border-color: #d70018;
-    }
-
-    .text-danger {
-        color: #d70018 !important;
-    }
-
-    .input-group .btn {
-        z-index: 0;
-    }
-
-    .input-group input[type="number"] {
-        text-align: center;
-    }
-
-    /* Ẩn mũi tên tăng giảm mặc định của input number */
-    input[type="number"]::-webkit-inner-spin-button,
-    input[type="number"]::-webkit-outer-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-    }
-</style>
+</body>
+</html>

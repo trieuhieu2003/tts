@@ -29,5 +29,10 @@ namespace tts.Web.Controllers
             var product = await _productAppService.GetProducts(id);
             return View(product);
         }
+
+        public ActionResult PayMent()
+        {
+            return View();
+        }
     }
 }
