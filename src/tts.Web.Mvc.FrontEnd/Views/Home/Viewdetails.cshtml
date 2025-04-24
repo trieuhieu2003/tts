@@ -561,11 +561,11 @@
                 <!-- Buttons -->
                 <div class="mt-6">
                     <button class="buy-btn">
-                        <a href="@Url.Action("PayMent", "Home", new { id = Model.Id, quantity = 1 })" class="btn btn-danger  btn-lg w-100 text-uppercase font-weight-bold">
+                        <a href="@Url.Action("Order", "Home", new { id = Model.Id, quantity = 1 })" class="btn btn-danger  btn-lg w-100 text-uppercase font-weight-bold">
                     Mua ngay
                         </a>
-                </button>
-                    <button class="add-to-cart-btn">
+                    </button>
+                    <button class="add-to-cart-btn" id="add-to-cart">
                         <i class="fas fa-shopping-cart mr-2"></i>
                         Thêm vào giỏ hàng
                     </button>
@@ -619,25 +619,34 @@
             }
         });
 
-        // Button click effects
-        // const buyBtn = document.querySelector('.buy-btn');
-        // const addToCartBtn = document.querySelector('.add-to-cart-btn');
+        // Add to cart functionality
+        document.getElementById('add-to-cart').addEventListener('click', async function() {
+            const quantity = parseInt(document.getElementById('quantity').value);
+            const productId = @Model.Id;
 
-        // buyBtn.addEventListener('click', function() {
-        //     this.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Đang xử lý...';
-        //     setTimeout(() => {
-        //         alert('Đơn hàng đã được tạo thành công!');
-        //         this.innerHTML = '<i class="fas fa-bolt mr-2"></i> Mua ngay';
-        //     }, 1500);
-        // });
+            try {
+                const response = await fetch('@Url.Action("AddToCart", "Cart")', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        productId: productId,
+                        quantity: quantity
+                    })
+                });
 
-        // addToCartBtn.addEventListener('click', function() {
-        //     this.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Đang thêm...';
-        //     setTimeout(() => {
-        //         alert('Sản phẩm đã được thêm vào giỏ hàng!');
-        //         this.innerHTML = '<i class="fas fa-shopping-cart mr-2"></i> Thêm vào giỏ hàng';
-        //     }, 1500);
-        // });
+                const result = await response.json();
+                if (result.success) {
+                    alert('Đã thêm sản phẩm vào giỏ hàng');
+                } else {
+                    alert(result.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng');
+            }
+        });
     </script>
 </body>
 </html>

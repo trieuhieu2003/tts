@@ -6,15 +6,14 @@
 
 @section scripts
 {
-<environment names="Development">
-    <script src="~/view-resources/Views/Home/Index.js" asp-append-version="true"></script>
-</environment>
+    <environment names="Development">
+        <script src="~/view-resources/Views/Home/Index.js" asp-append-version="true"></script>
+    </environment>
 
-<environment names="Staging,Production">
-    <script src="~/view-resources/Views/_Bundles/home-index.min.js" asp-append-version="true"></script>
-</environment>
+    <environment names="Staging,Production">
+        <script src="~/view-resources/Views/_Bundles/home-index.min.js" asp-append-version="true"></script>
+    </environment>
 }
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -63,7 +62,7 @@
                             <!-- <p class="register-link">Chưa có tài khoản? <a href="#">Đăng ký ngay</a></p> -->
                         </div>
                     </div>
-                    <li><a href=""></a><button><i class="fa-solid fa-cart-shopping"></i>Giỏ hàng</button></li>
+                    <li><a href="/Home/Cart"><button><i class="fa-solid fa-cart-shopping"></i>Giỏ hàng</button></a></li>
                     <li id="address-form">
                         <a href="#">
                             <span class="address">
@@ -225,7 +224,7 @@
                                 </div>
                             </div>
                         </li>
-                       @*  <li>
+                        @*  <li>
                             <a href="">
                                 <i class="fa-solid fa-sim-card"></i>Sim, Thẻ cào
                                 <i class="fa-solid fa-angle-down"></i>
@@ -369,7 +368,34 @@
             </div>
         </div> -->
         <div class="display-products-Fsale">
-            <!-- Products will be loaded here via AJAX -->
+            @if (Model != null)
+            {
+                @for (int i = 0; i < Math.Min(Model.Count, 5); i++)
+                {
+                    <div class="item-product">
+                        <div class="picture-run">
+                            <img class="item-img" src="@Model[i].ImageUrl" alt="@Model[i].Name">
+                        </div>
+                        <h3 class="item-title">@Model[i].Name</h3>
+                        <div class="item-price">
+                            <strong>@Model[i].Price.ToString("N0")₫</strong>
+                            @if (Model[i].Discount > 0)
+                            {
+                                <span class="price-and-discount">
+                                    <del>@((Model[i].Price * (1 + Model[i].Discount / 100.0m)).ToString("N0"))₫</del>
+                                    <span class="badge bg-danger">-@Model[i].Discount%</span>
+                                </span>
+                            }
+                        </div>
+                        <div class="item-bnt">
+                            <a href="@Url.Action("Viewdetails", "Home", new { id = Model[i].Id })" class="btn btn-danger">Mua ngay</a>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+        <div class="text-center mt-4">
+            <a href="/Product" class="btn btn-outline-danger">Xem tất cả sản phẩm</a>
         </div>
     </div>
     </div>
@@ -377,8 +403,6 @@
     <section class="home-banner-middle">
         <div class="double-picture-container">
             <div class="item-img-run">
-                <!-- <a href=""><img id="image1" src="~/img/banner-middle.png" style="height: 180px; width: 615px;"></a> -->
-                <!-- <a href=""><img id="image2" src="~/img/banner-middle1.png" style="height: 180px; width: 615px;"></a> -->
                 <a href=""><img id="image1" src="~/img/banner-middle1.png" style="height: 180px; width: 615px;"></a>
                 <a href=""><img id="image2" src="~/img/banner-middle3.png" style="height: 180px; width: 615px;"></a>
                 <a href=""><img id="image1" src="~/img/banner-middle4.png" style="height: 180px; width: 615px;"></a>
@@ -387,38 +411,42 @@
         </div>
     </section>
     <!-- Gợi ý cho bạn -->
-    <div class="hotpromoto-homeproduct-block">
-        <div class="block-protomo">
-            <h3><br>&nbsp;&nbsp;&nbsp;&nbsp;Gợi ý cho bạn</h3>
-        </div>
-        <div class="display-products-Fsale">
-            @for (int i = 0; i < 5; i++)
-            {
-                <div class="item-product">
-                    <div class="picture-run">
-                        <img class="item-img" src="@Model[i].ImageUrl" alt="@Model[i].Name">
-                    </div>
-                    <h3 class="item-title">@Model[i].Name</h3>
-                    <div class="item-price">
-                        <strong>@Model[i].Price.ToString("N0")₫</strong>
-                        @if (Model[i].Discount > 0)
-                        {
-                            <span class="price-and-discount">
-                                <del>@((Model[i].Price * (1 + Model[i].Discount / 100.0m)).ToString("N0"))₫</del>
-                                <span class="badge bg-danger">-@Model[i].Discount%</span>
-                            </span>
-                        }
-                    </div>
-                    <div class="item-bnt">
-                        <a href="@Url.Action("Viewdetails", "Home", new { id = Model[i].Id })" class="btn btn-danger">Mua ngay</a>
-                    </div>
-                </div>
-            }
-        </div>
-        <div class="text-center mt-4">
-            <a href="@Url.Action("Index", "Product")" class="btn btn-outline-danger">Xem tất cả sản phẩm</a>
-        </div>
-    </div>
+    @* <div class="hotpromoto-homeproduct-block"> *@
+    @*     <div class="block-protomo"> *@
+    @*         <h3><br>&nbsp;&nbsp;&nbsp;&nbsp;Gợi ý cho bạn</h3> *@
+    @*     </div> *@
+    @*     <div class="display-products-Fsale"> *@
+    @*         @if (Model != null) *@
+    @*         { *@
+    @*             @for (int i = 0; i < Math.Min(Model.Count, 5); i++) *@
+    @*             { *@
+    @*                 <div class="item-product"> *@
+    @*                     <div class="picture-run"> *@
+    @*                         <img class="item-img" src="@Model[i].ImageUrl" alt="@Model[i].Name"> *@
+    @*                     </div> *@
+    @*                     <h3 class="item-title">@Model[i].Name</h3> *@
+    @*                     <div class="item-price"> *@
+    @*                         <strong>@Model[i].Price.ToString("N0")₫</strong> *@
+    @*                         @if (Model[i].Discount > 0) *@
+    @*                         { *@
+    @*                             <span class="price-and-discount"> *@
+    @*                                 <del>@((Model[i].Price * (1 + Model[i].Discount / 100.0m)).ToString("N0"))₫</del> *@
+    @*                                 <span class="badge bg-danger">-@Model[i].Discount%</span> *@
+    @*                             </span> *@
+    @*                         } *@
+    @*                     </div> *@
+    @*                     <div class="item-bnt"> *@
+    @*                         <a href="@Url.Action("Viewdetails", "Home", new { id = Model[i].Id })" class="btn btn-danger">Mua ngay</a> *@
+    @*                     </div> *@
+    @*                 </div> *@
+    @*             } *@
+    @*         } *@
+    @*     </div> *@
+    @*     <div class="text-center mt-4"> *@
+    @*         <a href="/Product" class="btn btn-outline-danger">Xem tất cả sản phẩm</a> *@
+    @*     </div> *@
+    @* </div> *@
+    @* </div> *@
     <!-- <div class="product-privilege">
         <div class="index-privilege">
             <h3>Sản Phẩm Đặc Quyền</h3>
@@ -528,7 +556,7 @@
             <div class="item-booth"><a href=""><img class="sliders-booth" src="../image/booth3.png"></a></div>
             <div class="item-booth"><a href=""><img class="sliders-booth" src="../image/booth4.png"></a></div>
         </div> -->
-    @* </section> *@
+    </section>
     
     <footer>
         <div class="footer-content">
@@ -562,54 +590,12 @@
                     <li><a href="#" id="xemThem">Xem thêm</a></li>
                 </ul>
             </div>
-
-            @* <div class="footer-column">
-                <h3>Website cùng tập đoàn</h3>
-                <div class="website-group">
-                    <div class="website-row">
-                        <a href="#"><img src="~/img/topzone.png" alt="TopZone"></a>
-                        <a href="#"><img src="~/img/dienmayxanh.png" alt="Điện máy xanh"></a>
-                        <a href="#"><img src="~/img/bachhoaxanh.png" alt="Bách hóa xanh"></a>
-                        <a href="#"><img src="~/img/nhathuocankhang.png" alt="Nhà thuốc an khang"></a>
-                    </div>
-                    <div class="website-row">
-                        <a href="#"><img src="~/img/avakids.png" alt="AVAKids"></a>
-                        <a href="#"><img src="~/img/vieclam.png" alt="Việc làm"></a>
-                        <a href="#"><img src="~/img/arablue.png" alt="4KFarm"></a>
-                        <a href="#"><img src="~/img/thegioithoitrang.png" alt="Thế giới thời trang"></a>
-                    </div>
-                </div>
-                <div class="social-connect">
-                    <div class="connect-row">
-                        <a href="#" class="social-item">
-                            <i class="fab fa-facebook"></i>
-                            3886.8k Fan
-                        </a>
-                        <a href="#" class="social-item">
-                            <i class="fab fa-youtube"></i>
-                            873k Đăng ký
-                        </a>
-                        <a href="#" class="social-item">
-                            <i class="fab fa-telegram"></i>
-                            Zalo TGDD
-                        </a>
-                    </div>
-                    <div class="certification-row">
-                        <a href="#"><img src="~/img/certification1.png" alt="Chứng nhận 1"></a>
-                        <a href="#"><img src="~/img/certification2.png" alt="Chứng nhận 2"></a>
-                        <a href="#"><img src="~/img/certification3.png" alt="Chứng nhận 3"></a>
-                        <a href="#"><img src="~/img/certification4.png" alt="Chứng nhận 4"></a>
-                    </div>  
-                </div>
-            </div> *@
         </div>
         <div class="footer-bottom">
             <p>© 2018. Công ty cổ phần Thế Giới Di Động. GPDKKD: 0303217354 do sở KH & ĐT TP.HCM cấp ngày 02/01/2007. GPMXH: 238/GP-BTTTT do Bộ Thông Tin và Truyền Thông cấp ngày 04/06/2020.</p>
             <p>Địa chỉ: 128 Trần Quang Khải, P.Tân Định, Q.1, TP.Hồ Chí Minh. Địa chỉ liên hệ và gửi chứng từ: Lô T2-1.2, Đường D1, Đ. D1, P.Tân Phú, TP.Thủ Đức, TP.Hồ Chí Minh. Điện thoại: 028 38125960. Email: cskh@thegioididong.com. Chịu trách nhiệm nội dung: Huỳnh Văn Tốt. Email: hotrotmdt@thegioididong.com. <a href="#">Xem chính sách sử dụng</a></p>
         </div>
     </footer>
-
-    
 </body>
 
 </html>
@@ -700,5 +686,30 @@
         .item-product {
             width: calc(100% - 20px);
         }
+    }
+
+    .btn-outline-danger {
+        display: inline-block;
+        padding: 8px 20px;
+        color: #288ad6;
+        background: #fff;
+        border: 1px solid #288ad6;
+        border-radius: 4px;
+        text-decoration: none;
+        font-size: 14px;
+        transition: all 0.2s ease;
+    }
+
+    .btn-outline-danger:hover {
+        background: #288ad6;
+        color: #fff;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
+    .mt-4 {
+        margin-top: 1.5rem;
     }
 </style>

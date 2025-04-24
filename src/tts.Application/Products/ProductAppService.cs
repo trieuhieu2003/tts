@@ -22,11 +22,14 @@ namespace tts.Products
     {
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IRepository<Product> _productRepository;
+        private readonly string _imageRootPath;
+
 
         public ProductAppService(IRepository<Product> productRepository, IWebHostEnvironment webHostEnvironment)
         {
             _productRepository = productRepository;
             _webHostEnvironment = webHostEnvironment;
+            _imageRootPath = Path.GetFullPath(Path.Combine(webHostEnvironment.ContentRootPath, @"..\upload\Product"));
         }
         [AbpAuthorize(PermissionNames.Pages_Products_Create)]
         public async System.Threading.Tasks.Task Create(ProductListDto input)
@@ -215,29 +218,24 @@ namespace tts.Products
             await _productRepository.DeleteAsync(id);
         }
 
-
         private async Task<string> SaveImageAsync(IFormFile file)
         {
             if (file == null || file.Length == 0)
-            {
                 return null;
-            }
-            // Đường dẫn thư mục lưu ảnh: wwwroot/uploads/products
-            var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "uploads/products");
-            if (!Directory.Exists(uploadsFolder))
-            {
-                Directory.CreateDirectory(uploadsFolder);
-            }
-            // Tạo tên file duy nhất
-            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-            var filePath = Path.Combine(uploadsFolder, fileName);
-            // Lưu file ảnh vào thư mục
-            using (var stream = new FileStream(filePath, FileMode.Create))
+
+            var fileName = Guid.NewGuid().ToString("N") + Path.GetExtension(file.FileName);
+            var savePath = Path.Combine(_imageRootPath, fileName);
+
+            // Tạo thư mục nếu chưa tồn tại
+            Directory.CreateDirectory(_imageRootPath);
+
+            using (var stream = new FileStream(savePath, FileMode.Create))
             {
                 await file.CopyToAsync(stream);
             }
-            // Lưu đường dẫn tương đối vào database
-            return $"/uploads/products/{fileName}"; // Trả về đường dẫn để lưu vào database
+
+            // Trả về đường dẫn tương đối để truy cập từ trình duyệt
+            return "/upload/Product/" + fileName;
         }
 
         [AbpAuthorize]

@@ -1,71 +1,208 @@
-﻿    @using tts.Authorization
-    @model tts.Web.Models.Products.IndexViewModel
-    @inject Abp.Authorization.IPermissionChecker PermissionChecker
+﻿@using tts.Authorization
+@model tts.Web.Models.Products.IndexViewModel
+@inject Abp.Authorization.IPermissionChecker PermissionChecker
 
 @{
-    ViewBag.Title = ("Products");
+    ViewBag.Title = "Sản phẩm";
     ViewBag.ActiveMenu = "Products";
 }
 
-@section scripts
-    {
+@section scripts {
     <environment names="Development">
         <script src="~/view-resources/Views/Products/Index.js" asp-append-version="true"></script>
     </environment>
-
     <environment names="Staging,Production">
         <script src="~/view-resources/Views/Products/Index.min.js" asp-append-version="true"></script>
     </environment>
+}
 
-    }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách sản phẩm</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .product-card {
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
 
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
 
-<section>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <!--Use for bulk actions-->
+        .discount-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+            color: white;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .heart-icon {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .heart-icon:hover {
+            color: #ef4444;
+            transform: scale(1.2);
+        }
+
+        .heart-icon.active {
+            color: #ef4444;
+        }
+
+        keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        keyframes fadeOut {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(20px); }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        .animate-fade-out {
+            animation: fadeOut 0.5s ease-out forwards;
+        }
+
+    </style>
+</head>
+<body class="bg-gray-100 p-6">
+    <div class="max-w-7xl mx-auto">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold text-gray-800">Danh sách sản phẩm</h2>
+            <div class="flex space-x-4">
+                <div class="relative">
+                    <input type="text" placeholder="Tìm kiếm sản phẩm..." 
+                           class="pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                </div>
+                <select class="border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="">Tất cả danh mục</option>
+                    @foreach (var category in Model.Categories)
+                    {
+                        <option value="@category.Value">@category.Text</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+            @foreach (var product in Model.Products)
+            {
+                <div class="product-card bg-white rounded-xl overflow-hidden relative">
+                    <div class="relative">
+                        <img src="@product.ImageUrl" 
+                            alt="@product.Name"
+                            class="w-full h-48 object-contain p-4">
+                        @if (product.Discount > 0)
+                        {
+                            <div class="discount-badge">
+                                -@product.Discount%
                             </div>
-                            @* <div class="col-md-6">
-                                @await Html.PartialAsync("~/Views/Product/Index.AdvancedSearch.cshtml")
-                            </div> *@
-                        </div>
+                        }
+                        <i class="heart-icon far fa-heart text-xl" onclick="toggleWishlist(this)"></i>
                     </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table id="ProductsTable" class="table table-striped table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>@L("Name")</th>
-                                        <th>@L("Price")</th>
-                                        <th>@L("Discount")</th>
-                                        <th>@L("ImageUrl")</th>
-                                        <th>@L("CategoryName")</th>
-                                        <th>@L("CreationTime")</th>
-                                        <th>@L("UpdateTime")</th>
-                                        <th style="width: 150px">@L("Actions")</th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
+
+                    <div class="p-4">
+                        <h3 class="text-gray-800 font-semibold text-sm mb-2 truncate">@product.Name</h3>
+
+                        <div class="flex items-center mb-2">
+                            <div class="item-price">
+                                <strong class="text-red-600 font-bold text-lg">@product.Price.ToString("N0")₫</strong>
+                                @if (product.Discount > 0)
+                                {
+                                    <div class="price-and-discount">
+                                        <del class="text-gray-400 text-sm ml-2">@((product.Price * (1 + product.Discount / 100.0m)).ToString("N0"))₫</del>
+                                        <span class="badge bg-danger ml-2">-@product.Discount%</span>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="flex items-center mb-4">
+                            <div class="flex items-center text-yellow-400 mr-2">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <span class="text-gray-500 text-xs">(@product.NameCategory)</span>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-muted">
+                                <i class="fas fa-clock"></i> @product.CreationTime.ToString("dd/MM/yyyy")
+                            </small>
+                            <button class="bg-blue-50 hover:bg-blue-100 text-blue-600 font-medium py-2 px-4 rounded-lg transition duration-300 flex items-center justify-center"
+                                    onclick="viewDetails(@product.Id)">
+                                <i class="fas fa-eye mr-2"></i> Xem chi tiết
+                            </button>
                         </div>
                     </div>
                 </div>
-            </div>
+            }
         </div>
-    </div>
-</section>
-@* @await Html.PartialAsync("~/Views/Product/_CreateModal.cshtml", Model)
 
-
-<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel " data-backdrop="static">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-        </div>
     </div>
-</div> *@
+
+    <script>
+        function viewDetails(id) {
+            window.location.href = '@Url.Action("Viewdetails", "Home")/' + id;
+        }
+
+        function toggleWishlist(element) {
+            element.classList.toggle('far');
+            element.classList.toggle('fas');
+            element.classList.toggle('active');
+
+            const productName = element.closest('.product-card').querySelector('h3').textContent;
+            const isAdded = element.classList.contains('fas');
+
+            showNotification(isAdded ? `Đã thêm "${productName}" vào yêu thích` : `Đã xóa "${productName}" khỏi yêu thích`);
+        }
+
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg flex items-center animate-fade-in';
+            notification.innerHTML = `
+                <i class="fas fa-check-circle mr-2"></i>
+                <span>${message}</span>
+            `;
+
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.classList.remove('animate-fade-in');
+                notification.classList.add('animate-fade-out');
+                setTimeout(() => {
+                    notification.remove();
+                }, 500);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

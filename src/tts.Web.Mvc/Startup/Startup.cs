@@ -17,6 +17,8 @@ using tts.Web.Resources;
 using Abp.AspNetCore.SignalR.Hubs;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.WebEncoders;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
 
 namespace tts.Web.Startup
 {
@@ -78,6 +80,16 @@ namespace tts.Web.Startup
             else
             {
                 app.UseExceptionHandler("/Error");
+            }
+
+            var staticFilePath = Path.GetFullPath(Path.Combine(env.ContentRootPath, @"..\upload\Product"));
+            if (Directory.Exists(staticFilePath))
+            {
+                app.UseStaticFiles(new StaticFileOptions
+                {
+                    FileProvider = new PhysicalFileProvider(staticFilePath),
+                    RequestPath = "/upload/Product"
+                });
             }
 
             app.UseStaticFiles();
